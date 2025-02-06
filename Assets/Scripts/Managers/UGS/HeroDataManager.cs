@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DataTable_FortuneHero;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class HeroDataManager : HeroData
 {
@@ -12,6 +13,9 @@ public class HeroDataManager : HeroData
     
     public HeroData Get(int id)
     {
-        return HeroDataMap[id];
+        if (HeroDataMap.TryGetValue(id, out HeroData data))
+            return data;
+        else
+            return null;
     }
 }

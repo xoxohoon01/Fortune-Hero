@@ -11,5 +11,6 @@ public class DataManager : Singleton<DataManager>
     public void Initialize()
     {
         UnityGoogleSheet.LoadAllData();
+        Hero = new HeroDataManager();
     }
 }
