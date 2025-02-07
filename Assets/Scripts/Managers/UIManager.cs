@@ -18,8 +18,8 @@ public class UIManager : MonoSingleton<UIManager>
 
         var canvasScaler = canvas.AddComponent<CanvasScaler>();
         canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        canvasScaler.referenceResolution = new Vector2(1920, 1080);
-        canvasScaler.matchWidthOrHeight = 1;
+        canvasScaler.referenceResolution = new Vector2(1080, 2340);
+        canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
 
         canvas.AddComponent<GraphicRaycaster>();
     }

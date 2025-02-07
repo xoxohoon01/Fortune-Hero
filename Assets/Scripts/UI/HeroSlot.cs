@@ -14,8 +14,10 @@ public class HeroSlot : MonoBehaviour, IPointerClickHandler
         {
             if (UIManager.Instance.Get<HeroInventory>().currentSelectedHeroInventory != -1)
             {
+                Hero temp = GameManager.Instance.heroInventory.hero[currentSlot];
                 GameManager.Instance.heroInventory.hero[currentSlot] = GameManager.Instance.heroInventory.heroDatas[UIManager.Instance.Get<HeroInventory>().currentSelectedHeroInventory];
                 GameManager.Instance.heroInventory.heroDatas.Remove(GameManager.Instance.heroInventory.heroDatas[UIManager.Instance.Get<HeroInventory>().currentSelectedHeroInventory]);
+                if (temp != null) GameManager.Instance.heroInventory.heroDatas.Add(temp);
             }
             else if (UIManager.Instance.Get<HeroInventory>().currentSelectedHero != -1)
             {

@@ -7,20 +7,14 @@ using UnityEngine.UI;
 
 public class HeroInventory : UIBase
 {
+    public Image currentHeroSlot;
+
     public Image heroSlot1;
     public Image heroSlot2;
     public Image heroSlot3;
     public Image heroSlot4;
 
     public TMP_Text heroName;
-    public TMP_Text hp;
-    public TMP_Text mp;
-    public TMP_Text physicalDamage;
-    public TMP_Text magicalDamage;
-    public TMP_Text physicalArmor;
-    public TMP_Text magicalArmor;
-    public TMP_Text attackSpeed;
-    public TMP_Text moveSpeed;
 
     public ScrollRect scroll;
 
@@ -41,31 +35,16 @@ public class HeroInventory : UIBase
 
     public override void Hide()
     {
-        currentSelectedHero = 0;
+        currentSelectedHero = -1;
+        currentSelectedHeroInventory = -1;
         isChangeSlotMode = false;
 
         heroName.text = "";
-        hp.text = "";
-        mp.text = "";
-        physicalDamage.text = "";
-        magicalDamage.text = "";
-        physicalArmor.text = "";
-        magicalArmor.text = "";
-        attackSpeed.text = "";
-        moveSpeed.text = "";
     }
 
     private void Initialize()
     {
         heroName.text = "";
-        hp.text = "";
-        mp.text = "";
-        physicalDamage.text = "";
-        magicalDamage.text = "";
-        physicalArmor.text = "";
-        magicalArmor.text = "";
-        attackSpeed.text = "";
-        moveSpeed.text = "";
 
         UpdateHeroSlot();
 
@@ -77,26 +56,12 @@ public class HeroInventory : UIBase
         if (currentHero != null)
         {
             heroName.text = DataManager.Instance.Hero.Get(currentHero.ID)?.name;
-            hp.text = DataManager.Instance.Hero.Get(currentHero.ID).hp.ToString();
-            mp.text = DataManager.Instance.Hero.Get(currentHero.ID).hp.ToString();
-            physicalDamage.text = DataManager.Instance.Hero.Get(currentHero.ID).physicalDamage.ToString();
-            magicalDamage.text = DataManager.Instance.Hero.Get(currentHero.ID).magicalDamage.ToString();
-            physicalArmor.text = DataManager.Instance.Hero.Get(currentHero.ID).physicalArmor.ToString();
-            magicalArmor.text = DataManager.Instance.Hero.Get(currentHero.ID).magicalArmor.ToString();
-            attackSpeed.text = DataManager.Instance.Hero.Get(currentHero.ID).attackSpeed.ToString();
-            moveSpeed.text = DataManager.Instance.Hero.Get(currentHero.ID).moveSpeed.ToString();
+            currentHeroSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = DataManager.Instance.Hero.Get(currentHero.ID)?.name;
         }
         else
         {
             heroName.text = "";
-            hp.text = "";
-            mp.text = "";
-            physicalDamage.text = "";
-            magicalDamage.text = "";
-            physicalArmor.text = "";
-            magicalArmor.text = "";
-            attackSpeed.text = "";
-            moveSpeed.text = "";
+            currentHeroSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = "";
         }
     }
 
