@@ -8,4 +8,13 @@ public class Hero
     public int ID; // HeroData ID
     public int level; // 현재 레벨
     public int grade; // 현재 등급
+
+    // 업그레이드 상황
+    public int hpUpgrade;
+    public int physicalDamageUpgrade;
+    public int physicalArmorUpgrade;
+    public int magicalDamageUpgrade;
+    public int magicalArmorUpgrade;
+    public int attackSpeedUpgrade;
+    public int moveSpeedUpgrade;
 }
