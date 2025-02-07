@@ -49,7 +49,9 @@ public class UIManager : MonoSingleton<UIManager>
         }
         else
         {
-            uiObjectDictionary.TryAdd(typeof(T).ToString(), Instantiate(newUI.gameObject, canvas.transform));
+            GameObject newUIObject = Instantiate(newUI.gameObject, canvas.transform);
+            newUIObject.name = typeof(T).ToString();
+            uiObjectDictionary.TryAdd(typeof(T).ToString(), newUIObject);
         }
     }
     public void Hide<T>() where T : UIBase
@@ -61,6 +63,17 @@ public class UIManager : MonoSingleton<UIManager>
         {
             uiObjectDictionary[typeof(T).ToString()].GetComponent<UIBase>().Hide();
             uiObjectDictionary[typeof(T).ToString()].SetActive(false);
+        }
+    }
+    public void Hide(string ui)
+    {
+        UIBase newUI = Resources.Load<UIBase>("UI/" + ui);
+        uiDictionary.TryAdd(ui, newUI);
+
+        if (uiObjectDictionary.ContainsKey(ui))
+        {
+            uiObjectDictionary[ui].GetComponent<UIBase>().Hide();
+            uiObjectDictionary[ui].SetActive(false);
         }
     }
 

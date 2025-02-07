@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class HeroInventory : UIBase
@@ -40,6 +41,7 @@ public class HeroInventory : UIBase
         isChangeSlotMode = false;
 
         heroName.text = "";
+        currentHeroSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = "";
     }
 
     private void Initialize()
@@ -81,6 +83,9 @@ public class HeroInventory : UIBase
             UpdateHeroInventory();
             UpdateHeroSlot();
             ChangeHero(null);
+
+            currentSelectedHero = -1;
+            currentSelectedHeroInventory = -1;
 
             DatabaseManager.Instance.SaveData(GameManager.Instance.heroInventory, "HeroData");
         }
@@ -140,4 +145,5 @@ public class HeroInventory : UIBase
             }
         }
     }
+
 }
