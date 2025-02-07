@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -16,42 +17,162 @@ public class HeroInventory : UIBase
     public TMP_Text mp;
     public TMP_Text physicalDamage;
     public TMP_Text magicalDamage;
+    public TMP_Text physicalArmor;
+    public TMP_Text magicalArmor;
     public TMP_Text attackSpeed;
     public TMP_Text moveSpeed;
 
     public ScrollRect scroll;
 
-    private void OnEnable()
+    public bool isChangeSlotMode { get; private set; }
+    public int currentSelectedHeroInventory = -1;
+    public int currentSelectedHero = -1;
+
+    private void Start()
     {
         Initialize();
     }
 
+    private void OnEnable()
+    {
+        UpdateHeroInventory();
+        UpdateHeroSlot();
+    }
+
+    public override void Hide()
+    {
+        currentSelectedHero = 0;
+        isChangeSlotMode = false;
+
+        heroName.text = "";
+        hp.text = "";
+        mp.text = "";
+        physicalDamage.text = "";
+        magicalDamage.text = "";
+        physicalArmor.text = "";
+        magicalArmor.text = "";
+        attackSpeed.text = "";
+        moveSpeed.text = "";
+    }
+
     private void Initialize()
+    {
+        heroName.text = "";
+        hp.text = "";
+        mp.text = "";
+        physicalDamage.text = "";
+        magicalDamage.text = "";
+        physicalArmor.text = "";
+        magicalArmor.text = "";
+        attackSpeed.text = "";
+        moveSpeed.text = "";
+
+        UpdateHeroSlot();
+
+        UpdateHeroInventory();
+    }
+
+    public void ChangeHero(Hero currentHero)
+    {
+        if (currentHero != null)
+        {
+            heroName.text = DataManager.Instance.Hero.Get(currentHero.ID)?.name;
+            hp.text = DataManager.Instance.Hero.Get(currentHero.ID).hp.ToString();
+            mp.text = DataManager.Instance.Hero.Get(currentHero.ID).hp.ToString();
+            physicalDamage.text = DataManager.Instance.Hero.Get(currentHero.ID).physicalDamage.ToString();
+            magicalDamage.text = DataManager.Instance.Hero.Get(currentHero.ID).magicalDamage.ToString();
+            physicalArmor.text = DataManager.Instance.Hero.Get(currentHero.ID).physicalArmor.ToString();
+            magicalArmor.text = DataManager.Instance.Hero.Get(currentHero.ID).magicalArmor.ToString();
+            attackSpeed.text = DataManager.Instance.Hero.Get(currentHero.ID).attackSpeed.ToString();
+            moveSpeed.text = DataManager.Instance.Hero.Get(currentHero.ID).moveSpeed.ToString();
+        }
+        else
+        {
+            heroName.text = "";
+            hp.text = "";
+            mp.text = "";
+            physicalDamage.text = "";
+            magicalDamage.text = "";
+            physicalArmor.text = "";
+            magicalArmor.text = "";
+            attackSpeed.text = "";
+            moveSpeed.text = "";
+        }
+    }
+
+    public void ChangeSlotMode()
+    {
+        if (currentSelectedHeroInventory != -1 || currentSelectedHero != -1)
+            isChangeSlotMode = true;
+    }
+
+    public void ReleaseHero()
+    {
+        if (currentSelectedHero != -1 && GameManager.Instance.heroInventory.hero[currentSelectedHero] != null)
+        {
+            Hero temp = GameManager.Instance.heroInventory.hero[currentSelectedHero];
+            GameManager.Instance.heroInventory.hero[currentSelectedHero] = null;
+            GameManager.Instance.heroInventory.heroDatas.Add(temp);
+            UpdateHeroInventory();
+            UpdateHeroSlot();
+            ChangeHero(null);
+
+            DatabaseManager.Instance.SaveData(GameManager.Instance.heroInventory, "HeroData");
+        }
+    }
+
+    public void FinishChangeSlotMode()
+    {
+        isChangeSlotMode = false;
+    }
+
+    public void UpdateHeroSlot()
+    {
+        heroSlot1.transform.GetChild(0).GetComponent<TMP_Text>().text = GameManager.Instance.heroInventory.hero[0] != null ? DataManager.Instance.Hero.Get(GameManager.Instance.heroInventory.hero[0].ID).name : "";
+        heroSlot2.transform.GetChild(0).GetComponent<TMP_Text>().text = GameManager.Instance.heroInventory.hero[1] != null ? DataManager.Instance.Hero.Get(GameManager.Instance.heroInventory.hero[1].ID).name : "";
+        heroSlot3.transform.GetChild(0).GetComponent<TMP_Text>().text = GameManager.Instance.heroInventory.hero[2] != null ? DataManager.Instance.Hero.Get(GameManager.Instance.heroInventory.hero[2].ID).name : "";
+        heroSlot4.transform.GetChild(0).GetComponent<TMP_Text>().text = GameManager.Instance.heroInventory.hero[3] != null ? DataManager.Instance.Hero.Get(GameManager.Instance.heroInventory.hero[3].ID).name : "";
+    }
+
+    public void UpdateHeroInventory()
     {
         for (int i = 0; i < scroll.content.childCount; i++)
         {
             Destroy(scroll.content.GetChild(i).gameObject);
         }
 
-        for (int i = 0; i < GameManager.Instance.heroInventory.heroDatas.Count; i++)
+        if (GameManager.Instance.heroInventory.heroDatas.Count < 30)
         {
-            Hero currentHero;
-            if (GameManager.Instance.heroInventory.heroDatas[i] != null)
-                currentHero = GameManager.Instance.heroInventory.heroDatas[i];
-            else
-                currentHero = new Hero();
-            Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(currentHero);
+            int count = 0;
+            if (GameManager.Instance.heroInventory.heroDatas.Count > 0)
+            {
+                for (int i = 0; i < GameManager.Instance.heroInventory.heroDatas.Count; i++)
+                {
+                    Hero currentHero;
+                    if (GameManager.Instance.heroInventory.heroDatas[i] != null)
+                        currentHero = GameManager.Instance.heroInventory.heroDatas[i];
+                    else
+                        currentHero = new Hero();
+                    Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(currentHero, i);
+                    count++;
+                }
+            }
+            for (int i = count; i < 30; i++)
+            {
+                Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(new Hero(), i);
+            }
         }
-    }
-
-    public void ChangeHero(Hero currentHero)
-    {
-        heroName.text = DataManager.Instance.Hero.Get(currentHero.ID)?.name;
-        hp.text = DataManager.Instance.Hero.Get(currentHero.ID).hp.ToString();
-        mp.text = DataManager.Instance.Hero.Get(currentHero.ID).hp.ToString();
-        physicalDamage.text = DataManager.Instance.Hero.Get(currentHero.ID).physicalDamage.ToString();
-        magicalDamage.text = DataManager.Instance.Hero.Get(currentHero.ID).magicalDamage.ToString();
-        attackSpeed.text = DataManager.Instance.Hero.Get(currentHero.ID).attackSpeed.ToString();
-        moveSpeed.text = DataManager.Instance.Hero.Get(currentHero.ID).moveSpeed.ToString();
+        else
+        {
+            for (int i = 0; i < GameManager.Instance.heroInventory.heroDatas.Count; i++)
+            {
+                Hero currentHero;
+                if (GameManager.Instance.heroInventory.heroDatas[i] != null)
+                    currentHero = GameManager.Instance.heroInventory.heroDatas[i];
+                else
+                    currentHero = new Hero();
+                Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(currentHero, i);
+            }
+        }
     }
 }

@@ -22,8 +22,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             heroInventory = new HeroInventoryData();
             heroInventory.heroDatas = new List<Hero>();
-            for (int i = 0; i < 30; i++)
-                heroInventory.heroDatas.Add(new Hero());
+            heroInventory.hero = new Hero[4];
         }
 
         DatabaseManager.Instance.SaveData(heroInventory, "HeroData");

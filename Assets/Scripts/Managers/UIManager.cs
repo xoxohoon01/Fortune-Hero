@@ -59,6 +59,7 @@ public class UIManager : MonoSingleton<UIManager>
 
         if (uiObjectDictionary.ContainsKey(typeof(T).ToString()))
         {
+            uiObjectDictionary[typeof(T).ToString()].GetComponent<UIBase>().Hide();
             uiObjectDictionary[typeof(T).ToString()].SetActive(false);
         }
     }

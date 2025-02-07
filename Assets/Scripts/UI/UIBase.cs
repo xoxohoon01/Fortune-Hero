@@ -7,8 +7,9 @@ public class UIBase : MonoBehaviour
 
     }
 
-    public void Hide()
+    public virtual void Hide()
     {
+
     }
 }
 

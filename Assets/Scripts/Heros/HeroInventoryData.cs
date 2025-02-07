@@ -7,5 +7,7 @@ using GoogleSheet.Type;
 
 public class HeroInventoryData
 {
+    public Hero[] hero;
+
     public List<Hero> heroDatas;
 }
