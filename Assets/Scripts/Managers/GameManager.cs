@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using Newtonsoft.Json;
+using DataTable_FortuneHero;
 
 public class GameManager : MonoSingleton<GameManager>
 {
@@ -20,11 +21,14 @@ public class GameManager : MonoSingleton<GameManager>
         {
             heroInventory = heroData;
         }
+        // 저장 데이터가 없는 경우
         else
         {
             heroInventory = new HeroInventoryData();
             heroInventory.heroDatas = new List<Hero>();
             heroInventory.hero = new Hero[4];
+
+            heroInventory.hero[0] = new Hero(1);
         }
 
         // 아이템 불러오기
@@ -33,6 +37,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             itemInventory = itemData;
         }
+        // 저장 데이터가 없는 경우
         else
         {
             itemInventory = new ItemInventoryData();
@@ -45,7 +50,7 @@ public class GameManager : MonoSingleton<GameManager>
     public void GetItem(int id, int amount = 1)
     {
         bool isAdded = false;
-
+        ItemData itemData = DataManager.Instance.Item.Get(id);
         #region 아이템 추가 로직
 
         // 장비 아이템일 경우
@@ -64,7 +69,7 @@ public class GameManager : MonoSingleton<GameManager>
             // 인벤토리에 같은 아이템이 있는 경우
             for (int i = 0; i < itemInventory.itemDatas.Count; i++)
             {
-                if (itemInventory.itemDatas[i].data.ID == id)
+                if (itemData.ID == id)
                 {
                     if (itemInventory.itemDatas[i].amount < 99)
                     {
@@ -101,6 +106,29 @@ public class GameManager : MonoSingleton<GameManager>
         UIManager.Instance.Get<ItemInventory>()?.UpdateSlot();
         UIManager.Instance.Get<HeroItemInventory>()?.UpdateSlot();
     }
+    
+    public void GetItem(Item item)
+    {
+        itemInventory.itemDatas.Add(item);
+    }
+
+    public void SwapItem(ref Item itemSlot, int heroNumber, int itemNumber)
+    {
+        if (itemSlot != null)
+        {
+            itemSlot.equipedHeroNumber = -1;
+        }
+        itemSlot = Instance.itemInventory.itemDatas[itemNumber];
+        Instance.itemInventory.itemDatas[itemNumber].equipedHeroNumber = heroNumber;
+
+        // 인벤토리 저장
+        DatabaseManager.Instance.SaveData(heroInventory, "HeroData");
+        DatabaseManager.Instance.SaveData(itemInventory, "ItemData");
+
+        // UI 업데이트
+        UIManager.Instance.Get<ItemInventory>()?.UpdateSlot();
+        UIManager.Instance.Get<HeroItemInventory>()?.UpdateSlot();
+    }
 
     private void Start()
     {
@@ -111,7 +139,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GetItem(10001, 2);
+            GetItem(1001, 2);
         }
     }
 

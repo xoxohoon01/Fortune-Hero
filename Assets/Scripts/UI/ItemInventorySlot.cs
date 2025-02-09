@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using DataTable_FortuneHero;
+using UnityEngine.UI;
 
 public class ItemInventorySlot : MonoBehaviour, IPointerClickHandler
 {
+    public Image sprite;
+    public TMP_Text isEquip;
+    public TMP_Text amount;
+
     public int itemSlotNumber;
     private Item currentItem;
 
@@ -13,24 +19,50 @@ public class ItemInventorySlot : MonoBehaviour, IPointerClickHandler
     {
         itemSlotNumber = number;
         currentItem = item;
-        if (currentItem.data != null)
+        ItemData itemData = DataManager.Instance.Item.Get(currentItem.id);
+        if (itemData != null)
         {
-            transform.GetChild(0).GetComponent<TMP_Text>().text = currentItem.data.ID.ToString();
-            transform.GetChild(1).GetComponent<TMP_Text>().text = currentItem.amount.ToString();
+            if (itemData.type == 1)
+            {
+                if (currentItem.equipedHeroNumber == -1)
+                {
+                    sprite.transform.GetChild(0).GetComponent<TMP_Text>().text = itemData.ID.ToString();
+                    isEquip.text = "";
+                    amount.text = "";
+                }
+                else
+                {
+                    sprite.transform.GetChild(0).GetComponent<TMP_Text>().text = itemData.ID.ToString();
+                    isEquip.text = "E";
+                    amount.text = "";
+                }
+            }
+            else
+            {
+                sprite.transform.GetChild(0).GetComponent<TMP_Text>().text = itemData.ID.ToString();
+                isEquip.text = "";
+                amount.text = currentItem.amount.ToString();
+            }
+
+            
         }
         else
         {
-            transform.GetChild(0).GetComponent<TMP_Text>().text = "";
-            transform.GetChild(1).GetComponent<TMP_Text>().text = "";
+            sprite.transform.GetChild(0).GetComponent<TMP_Text>().text = "";
+            isEquip.text = "";
+            amount.text = "";
         }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (currentItem.data != null)
+        ItemData itemData = DataManager.Instance.Item.Get(currentItem.id);
+
+        if (itemData != null)
         {
             UIManager.Instance.Show<ItemDescription>("FloatingUI");
-            UIManager.Instance.Get<ItemDescription>().Initialize(currentItem);
+            ItemDescription item = UIManager.Instance.Get<ItemDescription>();
+            item.Initialize(currentItem, itemSlotNumber);
         }
     }
 }

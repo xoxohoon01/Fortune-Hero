@@ -4,7 +4,7 @@ using TMPro;
 using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
+using DataTable_FortuneHero;
 
 public class ItemInventory : UIBase
 {
@@ -27,16 +27,14 @@ public class ItemInventory : UIBase
         {
             Item item = GameManager.Instance.itemInventory.itemDatas[i];
 
-            scroll.content.GetChild(i).GetChild(0).GetComponent<TMP_Text>().text = item.data != null ? item.data.ID.ToString() : "";
-            scroll.content.GetChild(i).GetChild(1).GetComponent<TMP_Text>().text = item.data != null ? item.amount.ToString() : "";
+            scroll.content.GetChild(i).GetComponent<ItemInventorySlot>().Initialize(item, i);
             count++;
         }
         if (GameManager.Instance.itemInventory.itemDatas.Count < 300)
         {
             for (int i = count; i < 300; i++)
             {
-                scroll.content.GetChild(i).GetChild(0).GetComponent<TMP_Text>().text = "";
-                scroll.content.GetChild(i).GetChild(1).GetComponent<TMP_Text>().text = "";
+                scroll.content.GetChild(i).GetComponent<ItemInventorySlot>().Initialize(new Item(), i);
             }
         }
     }
@@ -50,16 +48,14 @@ public class ItemInventory : UIBase
         for (int i = 0; i < GameManager.Instance.itemInventory.itemDatas.Count; i++)
         {
             Item item = GameManager.Instance.itemInventory.itemDatas[i];
-
-            if (item.data != null && item.data.type == type)
+            ItemData itemData = DataManager.Instance.Item.Get(item.id);
+            if (itemData != null && itemData.type == type)
             {
-                scroll.content.GetChild(i).GetChild(0).GetComponent<TMP_Text>().text = item.data.ID.ToString();
-                scroll.content.GetChild(i).GetChild(1).GetComponent<TMP_Text>().text = item.amount.ToString();
+                scroll.content.GetChild(i).GetComponent<ItemInventorySlot>().Initialize(item, i);
             }
             else
             {
-                scroll.content.GetChild(i).GetChild(0).GetComponent<TMP_Text>().text = "";
-                scroll.content.GetChild(i).GetChild(1).GetComponent<TMP_Text>().text = "";
+                scroll.content.GetChild(i).GetComponent<ItemInventorySlot>().Initialize(new Item(), i);
             }
 
             count++;
@@ -68,8 +64,7 @@ public class ItemInventory : UIBase
         {
             for (int i = count; i < 300; i++)
             {
-                scroll.content.GetChild(i).GetChild(0).GetComponent<TMP_Text>().text = "";
-                scroll.content.GetChild(i).GetChild(1).GetComponent<TMP_Text>().text = "";
+                scroll.content.GetChild(i).GetComponent<ItemInventorySlot>().Initialize(new Item(), i);
             }
         }
     }

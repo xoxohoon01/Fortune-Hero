@@ -27,4 +27,19 @@ public class Hero
     public int magicalArmorUpgrade;
     public int attackSpeedUpgrade;
     public int moveSpeedUpgrade;
+
+    public Hero(int id = 0)
+    {
+        ID = id;
+        if (id != 0)
+        {
+            level = 1;
+            grade = 1;
+        }
+        else
+        {
+            level = 0;
+            grade = 0;
+        }
+    }
 }

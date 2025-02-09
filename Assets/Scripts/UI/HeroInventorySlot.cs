@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class HeroInventorySlot : MonoBehaviour, IPointerClickHandler
+public class HeroInventorySlot : UIBase, IPointerClickHandler
 {
     public int heroSlotNumber;
     private Hero currentHero;

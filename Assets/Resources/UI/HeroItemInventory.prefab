@@ -336,6 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b97d6252f6bcce4280a092801b5b428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  heroName: {fileID: 8122068870899167358}
   WeaponSlot: {fileID: 6338145502246704938}
   GloveSlot: {fileID: 5959996531542623044}
   RingSlot: {fileID: 208020778104333210}

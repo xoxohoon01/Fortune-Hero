@@ -1,12 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class HeroItemInventory : UIBase
 {
+    public TMP_Text heroName;
+
     public Image WeaponSlot;
     public Image GloveSlot;
     public Image RingSlot;
@@ -18,6 +22,9 @@ public class HeroItemInventory : UIBase
     public Image ArtifactSlot;
 
     public ScrollRect scroll;
+
+    private int currentHeroNumber;
+
     private int page;
     private bool isInitialized;
 
@@ -36,16 +43,14 @@ public class HeroItemInventory : UIBase
         {
             Item item = GameManager.Instance.itemInventory.itemDatas[i];
 
-            scroll.content.GetChild(i).GetChild(0).GetComponent<TMP_Text>().text = item.data != null ? item.data.ID.ToString() : "";
-            scroll.content.GetChild(i).GetChild(1).GetComponent<TMP_Text>().text = item.data != null ? item.amount.ToString() : "";
+            scroll.content.GetChild(i).GetComponent<ItemInventorySlot>().Initialize(item, i);
             count++;
         }
         if (GameManager.Instance.itemInventory.itemDatas.Count < 300)
         {
             for (int i = count; i < 300; i++)
             {
-                scroll.content.GetChild(i).GetChild(0).GetComponent<TMP_Text>().text = "";
-                scroll.content.GetChild(i).GetChild(1).GetComponent<TMP_Text>().text = "";
+                scroll.content.GetChild(i).GetComponent<ItemInventorySlot>().Initialize(new Item(), i);
             }
         }
     }
@@ -60,15 +65,13 @@ public class HeroItemInventory : UIBase
         {
             Item item = GameManager.Instance.itemInventory.itemDatas[i];
 
-            if (item.data != null && item.data.type == type)
+            if (item.id != 0 && DataManager.Instance.Item.Get(item.id).type == type)
             {
-                scroll.content.GetChild(i).GetChild(0).GetComponent<TMP_Text>().text = item.data.ID.ToString();
-                scroll.content.GetChild(i).GetChild(1).GetComponent<TMP_Text>().text = item.amount.ToString();
+                scroll.content.GetChild(i).GetComponent<ItemInventorySlot>().Initialize(item, i);
             }
             else
             {
-                scroll.content.GetChild(i).GetChild(0).GetComponent<TMP_Text>().text = "";
-                scroll.content.GetChild(i).GetChild(1).GetComponent<TMP_Text>().text = "";
+                scroll.content.GetChild(i).GetComponent<ItemInventorySlot>().Initialize(new Item(), i);
             }
 
             count++;
@@ -77,8 +80,7 @@ public class HeroItemInventory : UIBase
         {
             for (int i = count; i < 300; i++)
             {
-                scroll.content.GetChild(i).GetChild(0).GetComponent<TMP_Text>().text = "";
-                scroll.content.GetChild(i).GetChild(1).GetComponent<TMP_Text>().text = "";
+                scroll.content.GetChild(i).GetComponent<ItemInventorySlot>().Initialize(new Item(), i);
             }
         }
     }
@@ -104,16 +106,24 @@ public class HeroItemInventory : UIBase
         isInitialized = true;
     }
 
-    public void ChangeHero(Hero hero)
+    public void ChangeHero(int number)
     {
-        WeaponSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Weapon?.data?.name;
-        GloveSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Glove?.data?.name;
-        RingSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Ring?.data?.name;
-        NecklessSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Neckless?.data?.name;
-        HelmetSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Helmet?.data?.name;
-        TopSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Top?.data?.name;
-        BottomSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Bottom?.data?.name;
-        ShoesSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Shoes?.data?.name;
+        Hero hero = GameManager.Instance.heroInventory.hero[number];
+
+        heroName.text = DataManager.Instance.Hero.Get(hero.ID).name;
+        WeaponSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Weapon != null ? DataManager.Instance.Item.Get(hero.Weapon.id).name : "";
+        GloveSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Glove != null ? DataManager.Instance.Item.Get(hero.Glove.id).name : "";
+        RingSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Ring != null ? DataManager.Instance.Item.Get(hero.Ring.id).name : "";
+        NecklessSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Neckless != null ? DataManager.Instance.Item.Get(hero.Neckless.id).name : "";
+        HelmetSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Helmet != null ? DataManager.Instance.Item.Get(hero.Helmet.id).name : "";
+        TopSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Top != null ? DataManager.Instance.Item.Get(hero.Top.id).name : "";
+        BottomSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Bottom != null ? DataManager.Instance.Item.Get(hero.Bottom.id).name : "";
+        ShoesSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Shoes != null ? DataManager.Instance.Item.Get(hero.Shoes.id).name : "";
+    }
+
+    public void ChangeHeroInventory(int number)
+    { 
+
     }
 
     private void OnEnable()
