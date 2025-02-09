@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,8 @@ public class HeroItemInventory : UIBase
     public Image ArtifactSlot;
 
     public ScrollRect scroll;
+    private int page;
+    private bool isInitialized;
 
     public override void Hide()
     {
@@ -26,84 +29,79 @@ public class HeroItemInventory : UIBase
     public void ChangeAll()
     {
         scroll.verticalNormalizedPosition = 1.0f;
+        page = 0;
 
-        for (int i = 0; i < scroll.content.childCount; i++)
+        int count = 0;
+        for (int i = 0; i < GameManager.Instance.itemInventory.itemDatas.Count; i++)
         {
-            Destroy(scroll.content.GetChild(i).gameObject);
-        }
+            Item item = GameManager.Instance.itemInventory.itemDatas[i];
 
+            scroll.content.GetChild(i).GetChild(0).GetComponent<TMP_Text>().text = item.data != null ? item.data.ID.ToString() : "";
+            scroll.content.GetChild(i).GetChild(1).GetComponent<TMP_Text>().text = item.data != null ? item.amount.ToString() : "";
+            count++;
+        }
         if (GameManager.Instance.itemInventory.itemDatas.Count < 300)
         {
-            int count = 0;
-            for (int i = 0; i < GameManager.Instance.itemInventory.itemDatas.Count; i++)
-            {
-                Instantiate(Resources.Load<ItemInventorySlot>("UI/ItemInventorySlot"), scroll.content).Initialize(GameManager.Instance.itemInventory.itemDatas[i], GameManager.Instance.itemInventory.itemDatas[i].amount);
-                count++;
-            }
             for (int i = count; i < 300; i++)
             {
-                Instantiate(Resources.Load<ItemInventorySlot>("UI/ItemInventorySlot"), scroll.content).Initialize(new Item(0), 0);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < GameManager.Instance.itemInventory.itemDatas.Count; i++)
-            {
-                Instantiate(Resources.Load<ItemInventorySlot>("UI/ItemInventorySlot"), scroll.content).Initialize(GameManager.Instance.itemInventory.itemDatas[i], GameManager.Instance.itemInventory.itemDatas[i].amount);
+                scroll.content.GetChild(i).GetChild(0).GetComponent<TMP_Text>().text = "";
+                scroll.content.GetChild(i).GetChild(1).GetComponent<TMP_Text>().text = "";
             }
         }
     }
 
-    public void ChangeTab(int type)
+    public void ChangeType(int type)
     {
         scroll.verticalNormalizedPosition = 1.0f;
+        page = type;
 
-        for (int i = 0; i < scroll.content.childCount; i++)
+        int count = 0;
+        for (int i = 0; i < GameManager.Instance.itemInventory.itemDatas.Count; i++)
         {
-            Destroy(scroll.content.GetChild(i).gameObject);
-        }
+            Item item = GameManager.Instance.itemInventory.itemDatas[i];
 
+            if (item.data != null && item.data.type == type)
+            {
+                scroll.content.GetChild(i).GetChild(0).GetComponent<TMP_Text>().text = item.data.ID.ToString();
+                scroll.content.GetChild(i).GetChild(1).GetComponent<TMP_Text>().text = item.amount.ToString();
+            }
+            else
+            {
+                scroll.content.GetChild(i).GetChild(0).GetComponent<TMP_Text>().text = "";
+                scroll.content.GetChild(i).GetChild(1).GetComponent<TMP_Text>().text = "";
+            }
+
+            count++;
+        }
         if (GameManager.Instance.itemInventory.itemDatas.Count < 300)
         {
-            int count = 0;
-            for (int i = 0; i < GameManager.Instance.itemInventory.itemDatas.Count; i++)
-            {
-                if (GameManager.Instance.itemInventory.itemDatas[i].data.type == type)
-                {
-                    Instantiate(Resources.Load<ItemInventorySlot>("UI/ItemInventorySlot"), scroll.content).Initialize(GameManager.Instance.itemInventory.itemDatas[i], GameManager.Instance.itemInventory.itemDatas[i].amount);
-                    count++;
-                }
-            }
             for (int i = count; i < 300; i++)
             {
-                Instantiate(Resources.Load<ItemInventorySlot>("UI/ItemInventorySlot"), scroll.content).Initialize(new Item(0), 0);
+                scroll.content.GetChild(i).GetChild(0).GetComponent<TMP_Text>().text = "";
+                scroll.content.GetChild(i).GetChild(1).GetComponent<TMP_Text>().text = "";
             }
         }
+    }
+
+    public void UpdateSlot()
+    {
+        if (page == 0)
+            ChangeAll();
         else
-        {
-            for (int i = 0; i < GameManager.Instance.itemInventory.itemDatas.Count; i++)
-            {
-                if (GameManager.Instance.itemInventory.itemDatas[i].data.type == type)
-                {
-                    Instantiate(Resources.Load<ItemInventorySlot>("UI/ItemInventorySlot"), scroll.content).Initialize(GameManager.Instance.itemInventory.itemDatas[i], GameManager.Instance.itemInventory.itemDatas[i].amount);
-                }
-            }
-        }
+            ChangeType(page);
     }
 
     public override void Initialize()
     {
         base.Initialize();
 
-        ChangeAll();
-    }
-
-    public void UpdateSlot()
-    {
         for (int i = 0; i < 300; i++)
         {
-            scroll.content.GetChild(i).GetChild(0).GetComponent<TMP_Text>().text = GameManager.Instance.heroInventory.heroDatas[i].ID.ToString();
+            Instantiate(Resources.Load<ItemInventorySlot>("UI/ItemInventorySlot"), scroll.content).Initialize(new Item(), i);
         }
+
+        ChangeAll();
+        isInitialized = true;
     }
 
     public void ChangeHero(Hero hero)
@@ -118,14 +116,15 @@ public class HeroItemInventory : UIBase
         ShoesSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Shoes?.data?.name;
     }
 
+    private void OnEnable()
+    {
+        if (isInitialized)
+            ChangeAll();
+    }
+
     private void Start()
     {
         Initialize();
-    }
-
-    private void OnEnable()
-    {
-        ChangeAll();
     }
 
 }

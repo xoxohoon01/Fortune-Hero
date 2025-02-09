@@ -468,8 +468,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5853882764244313365}
-        m_TargetAssemblyTypeName: ItemInventory, Assembly-CSharp
-        m_MethodName: ChangeTab
+        m_TargetAssemblyTypeName: HeroItemInventory, Assembly-CSharp
+        m_MethodName: ChangeType
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -677,8 +677,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5853882764244313365}
-        m_TargetAssemblyTypeName: ItemInventory, Assembly-CSharp
-        m_MethodName: ChangeTab
+        m_TargetAssemblyTypeName: HeroItemInventory, Assembly-CSharp
+        m_MethodName: ChangeType
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1284,8 +1284,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5853882764244313365}
-        m_TargetAssemblyTypeName: ItemInventory, Assembly-CSharp
-        m_MethodName: ChangeTab
+        m_TargetAssemblyTypeName: HeroItemInventory, Assembly-CSharp
+        m_MethodName: ChangeType
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
