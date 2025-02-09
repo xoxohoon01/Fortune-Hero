@@ -29,8 +29,10 @@ public class HeroUpgrade : UIBase
         scroll.gameObject.SetActive(false);
     }
 
-    public void Initialize()
+    public override void Initialize()
     {
+        base.Initialize();
+
         upgradeSlots = new List<HeroUpgradeSlot>
         {
             Instantiate(Resources.Load<GameObject>("UI/HeroUpgradeSlot"), scroll.content).GetComponent<HeroUpgradeSlot>(),

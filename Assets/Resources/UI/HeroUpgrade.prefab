@@ -432,7 +432,6 @@ MonoBehaviour:
   hero3: {fileID: 4155178040746885341}
   hero4: {fileID: 2709471472699661245}
   scroll: {fileID: 6544661137162002439}
-  selectedHero: -1
 --- !u!1 &2397068749394636861
 GameObject:
   m_ObjectHideFlags: 0

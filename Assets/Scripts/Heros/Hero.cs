@@ -9,6 +9,16 @@ public class Hero
     public int level; // 현재 레벨
     public int grade; // 현재 등급
 
+    public Item Weapon;
+    public Item Glove;
+    public Item Ring;
+    public Item Neckless;
+    public Item Helmet;
+    public Item Top;
+    public Item Bottom;
+    public Item Shoes;
+    public Item Artifact;
+
     // 업그레이드 상황
     public int hpUpgrade;
     public int physicalDamageUpgrade;

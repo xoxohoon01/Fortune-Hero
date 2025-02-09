@@ -1,34 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIManager : MonoSingleton<UIManager>
 {
-    public Canvas canvas;
+    public Dictionary<string, Canvas> canvas;
     private Dictionary<string, UIBase> uiDictionary = new Dictionary<string, UIBase>();
     public Dictionary<string, GameObject> uiObjectDictionary = new Dictionary<string, GameObject>();
 
-    public void Initialize()
+    public void CreateCanvas(string name)
     {
-        canvas = new GameObject("Canvas").AddComponent<Canvas>();
-        canvas.gameObject.layer = LayerMask.NameToLayer("UI");
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        Canvas newCanvas = new GameObject("Canvas_"+name).AddComponent<Canvas>();
+        newCanvas.gameObject.layer = LayerMask.NameToLayer("UI");
+        newCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
 
-        var canvasScaler = canvas.AddComponent<CanvasScaler>();
+        var canvasScaler = newCanvas.AddComponent<CanvasScaler>();
         canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         canvasScaler.referenceResolution = new Vector2(1080, 2340);
         canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
 
-        canvas.AddComponent<GraphicRaycaster>();
+        newCanvas.AddComponent<GraphicRaycaster>();
+        canvas.Add(name, newCanvas);
+    }
+
+    public void Initialize()
+    {
+        canvas = new Dictionary<string, Canvas>();
+
+        CreateCanvas("HUD");
+        CreateCanvas("FloatingUI");
+
+        Show<HUDButtons>("HUD", false);
     }
 
     public void Open<T>() where T : UIBase
     {
         UIBase newUI = Resources.Load<UIBase>("UI/" + typeof(T).ToString());
         uiDictionary.TryAdd(typeof(T).ToString(), newUI);
-        uiObjectDictionary.TryAdd(typeof(T).ToString(), Instantiate(newUI.gameObject, canvas.transform));
+        uiObjectDictionary.TryAdd(typeof(T).ToString(), Instantiate(newUI.gameObject, canvas["FloatingUI"].transform));
     }
 
     public void Close<T>() where T : UIBase
@@ -38,7 +51,7 @@ public class UIManager : MonoSingleton<UIManager>
         Destroy(currentUI);
     }
 
-    public void Show<T>() where T : UIBase
+    public void Show<T>(string name, bool isFloating = true) where T : UIBase
     {
         UIBase newUI = Resources.Load<UIBase>("UI/" + typeof(T).ToString());
         uiDictionary.TryAdd(typeof(T).ToString(), newUI);
@@ -49,16 +62,13 @@ public class UIManager : MonoSingleton<UIManager>
         }
         else
         {
-            GameObject newUIObject = Instantiate(newUI.gameObject, canvas.transform);
+            GameObject newUIObject = Instantiate(newUI.gameObject, canvas[name].transform);
             newUIObject.name = typeof(T).ToString();
             uiObjectDictionary.TryAdd(typeof(T).ToString(), newUIObject);
         }
     }
     public void Hide<T>() where T : UIBase
     {
-        UIBase newUI = Resources.Load<UIBase>("UI/" + typeof(T).ToString());
-        uiDictionary.TryAdd(typeof(T).ToString(), newUI);
-
         if (uiObjectDictionary.ContainsKey(typeof(T).ToString()))
         {
             uiObjectDictionary[typeof(T).ToString()].GetComponent<UIBase>().Hide();
@@ -67,9 +77,6 @@ public class UIManager : MonoSingleton<UIManager>
     }
     public void Hide(string ui)
     {
-        UIBase newUI = Resources.Load<UIBase>("UI/" + ui);
-        uiDictionary.TryAdd(ui, newUI);
-
         if (uiObjectDictionary.ContainsKey(ui))
         {
             uiObjectDictionary[ui].GetComponent<UIBase>().Hide();
@@ -85,4 +92,5 @@ public class UIManager : MonoSingleton<UIManager>
         else
             return null;
     }
+
 }

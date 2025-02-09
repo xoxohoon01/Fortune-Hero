@@ -23,19 +23,10 @@ public class HeroInventory : UIBase
     public int currentSelectedHeroInventory = -1;
     public int currentSelectedHero = -1;
 
-    private void Start()
-    {
-        Initialize();
-    }
-
-    private void OnEnable()
-    {
-        UpdateHeroInventory();
-        UpdateHeroSlot();
-    }
-
     public override void Hide()
     {
+        scroll.verticalNormalizedPosition = 1.0f;
+
         currentSelectedHero = -1;
         currentSelectedHeroInventory = -1;
         isChangeSlotMode = false;
@@ -44,12 +35,16 @@ public class HeroInventory : UIBase
         currentHeroSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = "";
     }
 
-    private void Initialize()
+    public override void Initialize()
     {
+        base.Initialize();
+
         heroName.text = "";
 
-        UpdateHeroSlot();
+        currentSelectedHeroInventory = -1;
+        currentSelectedHero = -1;
 
+        UpdateHeroSlot();
         UpdateHeroInventory();
     }
 
@@ -146,4 +141,29 @@ public class HeroInventory : UIBase
         }
     }
 
+    public void OpenHeroItemInventory()
+    {
+        
+        if (currentSelectedHero != -1)
+        {
+            UIManager.Instance.Show<HeroItemInventory>("FloatingUI");
+            UIManager.Instance.Get<HeroItemInventory>().ChangeHero(GameManager.Instance.heroInventory.hero[currentSelectedHero]);
+        }
+        else if (currentSelectedHeroInventory != -1)
+        {
+            UIManager.Instance.Show<HeroItemInventory>("FloatingUI");
+            UIManager.Instance.Get<HeroItemInventory>().ChangeHero(GameManager.Instance.heroInventory.hero[currentSelectedHeroInventory]);
+        }
+    }
+
+    private void Start()
+    {
+        Initialize();
+    }
+
+    private void OnEnable()
+    {
+        UpdateHeroInventory();
+        UpdateHeroSlot();
+    }
 }

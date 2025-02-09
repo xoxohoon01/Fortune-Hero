@@ -3,12 +3,10 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Linq;
 
 public class UIBase : MonoBehaviour
 {
-    GameObject clickedObject;
-    List<RaycastResult> raycastResults;
-
     public virtual void Opened(params object[] param)
     {
 
@@ -18,69 +16,15 @@ public class UIBase : MonoBehaviour
     {
     }
 
-
-    protected void ClickOnTargetUI()
+    public virtual void Initialize()
     {
-        GraphicRaycaster raycaster = transform.root.GetComponent<GraphicRaycaster>();
-        PointerEventData eventData = new PointerEventData(EventSystem.current)
-        {
-            position = Input.mousePosition
-        };
-
-        List<RaycastResult> results = new List<RaycastResult>();
-        raycaster.Raycast(eventData, results);
-        if (results.Count > 0)
-        {
-            clickedObject = results[0].gameObject;
-            return;
-        }
-    }
-    protected bool IsClickingOnTargetUI()
-    {
-        GraphicRaycaster raycaster = transform.root.GetComponent<GraphicRaycaster>();
-
-        PointerEventData eventData = new PointerEventData(EventSystem.current)
-        {
-            position = Input.mousePosition
-        };
-
-        List<RaycastResult> results = new List<RaycastResult>();
-        raycaster.Raycast(eventData, results);
-
-        foreach (var result in results)
-        {
-            if (result.gameObject == gameObject || result.gameObject.transform.IsChildOf(gameObject.transform))
-            {
-                return true;
-            }
-        }
-
-        if (clickedObject != null)
-        {
-            if (clickedObject == gameObject || clickedObject.transform.IsChildOf(gameObject.transform))
-            {
-                return true;
-            }
-        }
-        return false;
+        CreateBackground();
     }
 
-
-    protected void Update()
+    public void CreateBackground()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            ClickOnTargetUI();
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            if (IsClickingOnTargetUI() == false)
-            {
-                UIManager.Instance.Hide(gameObject.name);
-            }
-            clickedObject = null;
-        }
+        GameObject background = Instantiate(Resources.Load<GameObject>("UI/UIBackground"), gameObject.transform);
+        background.transform.SetSiblingIndex(0);
     }
 }
 
