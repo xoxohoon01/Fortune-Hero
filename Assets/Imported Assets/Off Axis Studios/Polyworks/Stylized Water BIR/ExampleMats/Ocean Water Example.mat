@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Ocean Water Example
-  m_Shader: {fileID: -6465566751694194690, guid: 620a9d0d04f106c47941718081cc2925,
+  m_Shader: {fileID: -6465566751694194690, guid: ac93f09986111dc478b098e605e8bc2b,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -53,6 +53,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 381a107aeb4767a488e3b62263b0382f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureOverlay:
+        m_Texture: {fileID: 2800000, guid: b4506f86beb2470498980978f680968f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _WaveNormalMap:
         m_Texture: {fileID: 2800000, guid: 1606d47e27863494ba0c833e7bde6324, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -75,16 +79,36 @@ Material:
     - _CausticsPower: 1
     - _CausticsScale: 12
     - _CausticsSpeed: 0.1
+    - _Chop: 0.1
     - _DistanceCutoff: 0.06
     - _EdgeFoamSize: 0.1
+    - _EmissionDulling: 10
+    - _FlatShade: 0
+    - _FoamAmount: 0.44
+    - _FoamCutoff: 1
+    - _FoamScale: 100
+    - _FoamSpeed: 0.5
     - _GlintPower: 50
     - _GlintScale: 20
     - _GlintSpeed: 0.01
+    - _Metallic: 0
+    - _OverlayFoamNoise: 1
+    - _PerspectiveSwitch: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReflectionPower: 0.4
+    - _RefractionScale: 2
+    - _RefractionSpeed: 0.05
+    - _RefractionStrength: 0.05
+    - _Smoothness: 0
+    - _StaticTexture: 1
     - _SunSpecularPower: 30
+    - _TextureMultiply: 0
+    - _TextureSize: 1
+    - _TintTextureAlpha: 0
+    - _UseTextureOverlay: 0
     - _WaiverAmount: 0.09
+    - _WaterAlpha: 0.75
     - _WaterDepth: 0.278
     - _Wave1Amps: 0.1
     - _Wave1Dir: 0.65
@@ -99,6 +123,7 @@ Material:
     m_Colors:
     - _DarkColour: {r: 0, g: 0.8235294, b: 1, a: 1}
     - _DeepColor: {r: 0, g: 0.72, b: 0.71, a: 1}
+    - _DeepWater: {r: 0, g: 0.67058825, b: 1, a: 0.07843138}
     - _DistanceColor: {r: 0.04, g: 0.24, b: 0.67, a: 1}
     - _EdgeFoamColor: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 1}
     - _FoamColour: {r: 1, g: 1, b: 1, a: 1}
@@ -106,8 +131,12 @@ Material:
     - _MainColour: {r: 0, g: 0.9011409, b: 1, a: 0.627451}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _ShallowColor: {r: 0.9103774, g: 0.9813572, b: 1, a: 1}
+    - _ShallowWater: {r: 0.6078432, g: 0.9176471, b: 1, a: 0.07843138}
     - _SpecColor: {r: 0.35355338, g: 0.12339707, b: 0.05268639, a: 1}
     - _SubSurfColor: {r: 1, g: 0.6, b: 0.47, a: 1}
+    - _TextureColour1: {r: 1, g: 1, b: 1, a: 0.5882353}
+    - _TextureColour2: {r: 0, g: 0.7254902, b: 1, a: 0.5882353}
+    - _TextureWaterTint: {r: 0, g: 0.737255, b: 0.5019608, a: 0}
     - _Tiling: {r: 0.25, g: -0.06, b: 0, a: 0}
     - _WaterSpeed: {r: 0, g: 25, b: 0, a: 0}
   m_BuildTextureStacks: []
