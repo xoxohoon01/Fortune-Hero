@@ -8,11 +8,15 @@ public class DataManager : Singleton<DataManager>
 {
     public HeroDataManager Hero;
     public ItemDataManager Item;
+    public MonsterDataManager Monster;
+    public StageDataManager Stage;
 
     public void Initialize()
     {
         UnityGoogleSheet.LoadAllData();
         Hero = new HeroDataManager();
         Item = new ItemDataManager();
+        Monster = new MonsterDataManager();
+        Stage = new StageDataManager();
     }
 }

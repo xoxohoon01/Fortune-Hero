@@ -17,39 +17,39 @@ using UnityEngine;
 namespace DataTable_FortuneHero
 {
     [GoogleSheet.Attribute.TableStruct]
-    public partial class MonsterData : ITable
+    public partial class StageData : ITable
     { 
 
-        public delegate void OnLoadedFromGoogleSheets(List<MonsterData> loadedList, Dictionary<int, MonsterData> loadedDictionary);
+        public delegate void OnLoadedFromGoogleSheets(List<StageData> loadedList, Dictionary<int, StageData> loadedDictionary);
 
         static bool isLoaded = false;
         static string spreadSheetID = "1vZW7t6h9E5oEx3BSDEyNm4uMhidkSKaVrJk5TY0wTos"; // it is file id
-        static string sheetID = "1678423585"; // it is sheet id
+        static string sheetID = "478265727"; // it is sheet id
         static UnityFileReader reader = new UnityFileReader();
 
 /* Your Loaded Data Storage. */
     
-        public static Dictionary<int, MonsterData> MonsterDataMap = new Dictionary<int, MonsterData>();  
-        public static List<MonsterData> MonsterDataList = new List<MonsterData>();   
+        public static Dictionary<int, StageData> StageDataMap = new Dictionary<int, StageData>();  
+        public static List<StageData> StageDataList = new List<StageData>();   
 
         /// <summary>
-        /// Get MonsterData List 
+        /// Get StageData List 
         /// Auto Load
         /// </summary>
-        public static List<MonsterData> GetList()
+        public static List<StageData> GetList()
         {{
            if (isLoaded == false) Load();
-           return MonsterDataList;
+           return StageDataList;
         }}
 
         /// <summary>
-        /// Get MonsterData Dictionary, keyType is your sheet A1 field type.
+        /// Get StageData Dictionary, keyType is your sheet A1 field type.
         /// - Auto Load
         /// </summary>
-        public static Dictionary<int, MonsterData>  GetDictionary()
+        public static Dictionary<int, StageData>  GetDictionary()
         {{
            if (isLoaded == false) Load();
-           return MonsterDataMap;
+           return StageDataMap;
         }}
 
     
@@ -57,27 +57,9 @@ namespace DataTable_FortuneHero
 /* Fields. */
 
 		public System.Int32 ID;
-		public System.String name;
-		public System.Int32 type;
-		public System.Single hp;
-		public System.Single mp;
-		public System.Single physicalDamage;
-		public System.Single magicalDamage;
-		public System.Single physicalArmor;
-		public System.Single magicalArmor;
-		public System.Single attackSpeed;
-		public System.Single moveSpeed;
-		public System.Single hp_PerLevel;
-		public System.Single mp_PerLevel;
-		public System.Single physicalDamage_PerLevel;
-		public System.Single magicalDamage_PerLevel;
-		public System.Single physicalArmor_PerLevel;
-		public System.Single magicalArmor_PerLevel;
-		public System.Single hp_PerGrade;
-		public System.Single exp;
-		public System.Single exp_PerLevel;
-		public System.Collections.Generic.List<Int32> item;
-		public System.String prefabPath;
+		public System.Int32 monsterID;
+		public System.Int32 spawnCount;
+		public System.Single spawnRadius;
   
 
 #region fuctions
@@ -88,7 +70,7 @@ namespace DataTable_FortuneHero
             if(isLoaded && forceReload == false)
             {
 #if UGS_DEBUG
-                 Debug.Log("MonsterData is already loaded! if you want reload then, forceReload parameter set true");
+                 Debug.Log("StageData is already loaded! if you want reload then, forceReload parameter set true");
 #endif
                  return;
             }
@@ -104,7 +86,7 @@ namespace DataTable_FortuneHero
         }
  
 
-        public static void LoadFromGoogle(System.Action<List<MonsterData>, Dictionary<int, MonsterData>> onLoaded, bool updateCurrentData = false)
+        public static void LoadFromGoogle(System.Action<List<StageData>, Dictionary<int, StageData>> onLoaded, bool updateCurrentData = false)
         {      
                 IHttpProtcol webInstance = null;
     #if UNITY_EDITOR
@@ -132,14 +114,14 @@ namespace DataTable_FortuneHero
                
 
 
-    public static (List<MonsterData> list, Dictionary<int, MonsterData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
-            Dictionary<int, MonsterData> Map = new Dictionary<int, MonsterData>();
-            List<MonsterData> List = new List<MonsterData>();     
+    public static (List<StageData> list, Dictionary<int, StageData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
+            Dictionary<int, StageData> Map = new Dictionary<int, StageData>();
+            List<StageData> List = new List<StageData>();     
             TypeMap.Init();
-            FieldInfo[] fields = typeof(MonsterData).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(StageData).GetFields(BindingFlags.Public | BindingFlags.Instance);
             List<(string original, string propertyName, string type)> typeInfos = new List<(string, string, string)>(); 
             List<List<string>> rows = new List<List<string>>();
-            var sheet = jsonObject["MonsterData"];
+            var sheet = jsonObject["StageData"];
 
             foreach (var column in sheet.Keys)
             {
@@ -158,7 +140,7 @@ namespace DataTable_FortuneHero
                         int rowCount = rows[0].Count;
                         for (int i = 0; i < rowCount; i++)
                         {
-                            MonsterData instance = new MonsterData();
+                            StageData instance = new StageData();
                             for (int j = 0; j < typeInfos.Count; j++)
                             {
                                 try
@@ -199,8 +181,8 @@ namespace DataTable_FortuneHero
                         }
                         if(isLoaded == false || forceReload)
                         { 
-                            MonsterDataList = List;
-                            MonsterDataMap = Map;
+                            StageDataList = List;
+                            StageDataMap = Map;
                             isLoaded = true;
                         }
                     } 
@@ -210,10 +192,10 @@ namespace DataTable_FortuneHero
 
  
 
-        public static void Write(MonsterData data, System.Action<WriteObjectResult> onWriteCallback = null)
+        public static void Write(StageData data, System.Action<WriteObjectResult> onWriteCallback = null)
         { 
             TypeMap.Init();
-            FieldInfo[] fields = typeof(MonsterData).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(StageData).GetFields(BindingFlags.Public | BindingFlags.Instance);
             var datas = new string[fields.Length];
             for (int i = 0; i < fields.Length; i++)
             {

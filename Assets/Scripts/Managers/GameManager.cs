@@ -9,11 +9,11 @@ public class GameManager : MonoSingleton<GameManager>
 {
     public HeroInventoryData heroInventory;
     public ItemInventoryData itemInventory;
-
     public void Initialize()
     {
         DataManager.Instance.Initialize();
         UIManager.Instance.Initialize();
+        StageManager.Instance.Initialize();
 
         // 영웅 불러오기
         HeroInventoryData heroData = DatabaseManager.Instance.LoadData<HeroInventoryData>("HeroData");
@@ -140,6 +140,11 @@ public class GameManager : MonoSingleton<GameManager>
         if (Input.GetKeyDown(KeyCode.Space))
         {
             GetItem(1001, 2);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            StageManager.Instance.SpawnMonster();
         }
     }
 
