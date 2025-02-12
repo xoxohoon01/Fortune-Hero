@@ -8,7 +8,7 @@ public class StageManager : MonoSingleton<StageManager>
 {
     public int currentStage;
 
-    private GameObject[] heroObjects = new GameObject[4];
+    public GameObject[] heroObjects = new GameObject[4];
     private List<GameObject> monsterObjects = new List<GameObject>();
 
     public void Initialize()
@@ -105,6 +105,8 @@ public class StageManager : MonoSingleton<StageManager>
 
         SpawnHero();
         Invoke("SpawnMonster", 1f);
+
+        CameraManager.Instance.SetTarget();
     }
 
     public void EndStage()
