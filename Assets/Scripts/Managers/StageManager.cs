@@ -8,10 +8,14 @@ public class StageManager : MonoSingleton<StageManager>
 {
     public int currentStage;
 
+    private GameObject[] heroObjects = new GameObject[4];
+    private List<GameObject> monsterObjects = new List<GameObject>();
+
     public void Initialize()
     {
         currentStage = 1;
     }
+
 
     public void SpawnHero()
     {
@@ -32,6 +36,7 @@ public class StageManager : MonoSingleton<StageManager>
             {
                 HeroController hero = Instantiate(Resources.Load<GameObject>(DataManager.Instance.Hero.Get(currentHero.ID).prefabPath), spawnPos, Quaternion.Euler(0, 0, 0)).GetComponent<HeroController>();
                 hero.Initialize(currentHero);
+                heroObjects[i] = hero.gameObject;
             }
                 
         }
@@ -49,14 +54,67 @@ public class StageManager : MonoSingleton<StageManager>
                  Mathf.Sin(angle) * stage.spawnRadius
             );
 
-            Instantiate(Resources.Load<GameObject>(DataManager.Instance.Monster.Get(stage.monsterID).prefabPath), spawnPos, Quaternion.identity).transform.LookAt(Vector3.zero);
+            GameObject monster = Instantiate(Resources.Load<GameObject>(DataManager.Instance.Monster.Get(stage.monsterID).prefabPath), spawnPos, Quaternion.identity);
+            monster.transform.LookAt(Vector3.zero);
+
+            monsterObjects.Add(monster);
         }
     }
 
+
+    public void DespawnAll()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (heroObjects[i] != null)
+            {
+                Destroy(heroObjects[i]);
+            }
+        }
+        foreach (GameObject monster in monsterObjects)
+        {
+            Destroy(monster);
+        }
+        monsterObjects.Clear();
+    }
+
+    public void DespawnHero()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (heroObjects[i] != null)
+            {
+                Destroy(heroObjects[i]);
+            }
+        }
+    }
+
+    public void DespawnMonster()
+    {
+        foreach (GameObject monster in monsterObjects)
+        {
+            Destroy(monster);
+        }
+        monsterObjects.Clear();
+    }
+
+
     public void StartStage()
     {
+        DespawnAll();
+
         SpawnHero();
         Invoke("SpawnMonster", 1f);
+    }
+
+    public void EndStage()
+    {
+        DespawnAll();
+    }
+
+    public void ClearStage()
+    {
+
     }
 
 }
