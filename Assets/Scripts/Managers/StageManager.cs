@@ -45,13 +45,20 @@ public class StageManager : MonoSingleton<StageManager>
     public void SpawnMonster()
     {
         StageData stage = DataManager.Instance.Stage.Get(3000 + currentStage);
+
+        float offsetAngle = Random.Range(0.0f, 360.0f);
+        Vector3 offset = new Vector3(
+            Mathf.Cos(offsetAngle) * stage.spawnRadius,
+            0,
+            Mathf.Sin(offsetAngle) * stage.spawnRadius);
+
         for (int i = 0; i < stage.spawnCount; i++)
         {
             float angle = i * (Mathf.PI * 2 / stage.spawnCount);
             Vector3 spawnPos = new Vector3(
-                Mathf.Cos(angle) * stage.spawnRadius,
+                offset.x + Mathf.Cos(angle) * 3,
                 0,
-                 Mathf.Sin(angle) * stage.spawnRadius
+                offset.z + Mathf.Sin(angle) * 3
             );
 
             GameObject monster = Instantiate(Resources.Load<GameObject>(DataManager.Instance.Monster.Get(stage.monsterID).prefabPath), spawnPos, Quaternion.identity);
@@ -104,6 +111,7 @@ public class StageManager : MonoSingleton<StageManager>
         DespawnAll();
 
         SpawnHero();
+        CancelInvoke("SpawnMonster");
         Invoke("SpawnMonster", 1f);
 
         CameraManager.Instance.SetTarget();
