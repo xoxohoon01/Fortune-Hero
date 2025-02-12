@@ -139,12 +139,12 @@ public class GameManager : MonoSingleton<GameManager>
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GetItem(1001, 2);
+            Time.timeScale = Time.timeScale == 1 ? 2 : 1;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            StageManager.Instance.SpawnMonster();
+            StageManager.Instance.StartStage();
         }
     }
 

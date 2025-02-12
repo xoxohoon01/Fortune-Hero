@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class UnitTest : MonoBehaviour
 {
+    Hero currentHero;
     NavMeshAgent agent;
     Animator animator;
 
@@ -28,9 +29,15 @@ public class UnitTest : MonoBehaviour
             }
         }
 
-        if (Vector3.Distance(transform.position, agent.destination) <= 0.2f)
+        if (Vector3.Distance(transform.position, agent.destination) <= agent.stoppingDistance)
         {
             animator.SetBool("isMove", false);
+            agent.avoidancePriority = 2;
+        }
+        else
+        {
+            animator.SetBool("isMove", true);
+            agent.avoidancePriority = 1;
         }
     }
 }

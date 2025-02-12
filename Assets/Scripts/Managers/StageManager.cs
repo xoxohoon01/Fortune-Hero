@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DataTable_FortuneHero;
+using UnityEngine.AI;
 
 public class StageManager : MonoSingleton<StageManager>
 {
@@ -12,9 +13,28 @@ public class StageManager : MonoSingleton<StageManager>
         currentStage = 1;
     }
 
-    public void SpawnPlayer()
+    public void SpawnHero()
     {
+        for (int i = 0; i < 4; i++)
+        {
+            Hero currentHero = null;
+            if (GameManager.Instance.heroInventory.hero[i] != null)
+                currentHero = GameManager.Instance.heroInventory.hero[i];
 
+            float angle = i * (Mathf.PI * 2 / 4) + (Mathf.Deg2Rad * 90);
+            Vector3 spawnPos = new Vector3(
+                Mathf.Cos(angle) * 2,
+                0,
+                 Mathf.Sin(angle) * 2
+            );
+
+            if (currentHero != null)
+            {
+                HeroController hero = Instantiate(Resources.Load<GameObject>(DataManager.Instance.Hero.Get(currentHero.ID).prefabPath), spawnPos, Quaternion.Euler(0, 0, 0)).GetComponent<HeroController>();
+                hero.Initialize(currentHero);
+            }
+                
+        }
     }
 
     public void SpawnMonster()
@@ -35,8 +55,8 @@ public class StageManager : MonoSingleton<StageManager>
 
     public void StartStage()
     {
-        SpawnPlayer();
-        SpawnMonster();
+        SpawnHero();
+        Invoke("SpawnMonster", 1f);
     }
 
 }

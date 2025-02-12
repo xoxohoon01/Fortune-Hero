@@ -58,6 +58,7 @@ namespace DataTable_FortuneHero
 
 		public System.Int32 ID;
 		public System.String name;
+		public System.String description;
 		public System.Int32 type;
 		public System.Single hp;
 		public System.Single mp;
@@ -67,6 +68,7 @@ namespace DataTable_FortuneHero
 		public System.Single magicalArmor;
 		public System.Single attackSpeed;
 		public System.Single moveSpeed;
+		public System.Single attackRange;
 		public System.Single hp_PerLevel;
 		public System.Single mp_PerLevel;
 		public System.Single physicalDamage_PerLevel;
@@ -78,6 +80,7 @@ namespace DataTable_FortuneHero
 		public System.Single magicalDamage_PerGrade;
 		public System.Single physicalArmor_PerGrade;
 		public System.Single magicalArmor_PerGrade;
+		public System.String prefabPath;
   
 
 #region fuctions
