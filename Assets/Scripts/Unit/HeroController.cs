@@ -46,6 +46,9 @@ public class HeroController : UnitController
         else
         {
             target = null;
+            agent.isStopped = true;
+            animator.SetBool("isMove", false);
+            isAttack = false;
         }
     }
 
@@ -156,18 +159,6 @@ public class HeroController : UnitController
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                agent.SetDestination(hit.point);
-                animator.SetBool("isMove", true);
-            }
-        }
-
         TargetFinding();
         PathFinding();
 

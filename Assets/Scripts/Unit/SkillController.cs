@@ -34,11 +34,15 @@ public class SkillController : MonoBehaviour
             rigidbody.velocity = targetVector * currentSkillData.moveSpeed;
             transform.LookAt(transform.position + targetVector);
         }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnHit()
     {
-        Collider[] colliders = Physics.OverlapBox(transform.position, transform.localScale / 2, transform.rotation);
+        Collider[] colliders = Physics.OverlapBox(transform.position + (Vector3.up * (transform.localScale.y/2)), transform.localScale / 2, transform.rotation);
         
         foreach(Collider collider in colliders)
         {
@@ -77,6 +81,6 @@ public class SkillController : MonoBehaviour
 
         // 와이어 큐브를 그리기
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(Vector3.zero, transform.localScale);
+        Gizmos.DrawWireCube(Vector3.zero + (Vector3.up * (transform.localScale.y / 2)), transform.localScale);
     }
 }
