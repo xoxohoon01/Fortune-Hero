@@ -7,14 +7,19 @@ using UnityEditor.EditorTools;
 public class SkillController : MonoBehaviour
 {
     MeshFilter mesh;
+    ParticleSystem particle;
+
     SkillData currentSkillData;
     GameObject targetObject;
     new Rigidbody rigidbody;
 
+    bool isEnd;
+
     private void NormalizeMeshSize(Vector3 targetSize)
     {
         mesh = GetComponentInChildren<MeshFilter>();
-        if (mesh.sharedMesh != null)
+        particle = GetComponentInChildren<ParticleSystem>();
+        if (mesh?.sharedMesh != null)
         {
             Vector3 meshSize = mesh.sharedMesh.bounds.size;
 
@@ -36,7 +41,7 @@ public class SkillController : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            isEnd = true;
         }
     }
 
@@ -49,7 +54,7 @@ public class SkillController : MonoBehaviour
             if (collider.gameObject == targetObject)
             {
                 targetObject.GetComponent<MonsterController>().hp -= 100;
-                Destroy(gameObject);
+                isEnd = true;
             }
         }
     }
@@ -73,6 +78,20 @@ public class SkillController : MonoBehaviour
         Move();
 
         OnHit();
+        if (isEnd)
+        {
+            if (particle != null)
+            {
+                particle.Stop();
+                if (!particle.IsAlive())
+                    Destroy(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+        
     }
 
     private void OnDrawGizmos()
