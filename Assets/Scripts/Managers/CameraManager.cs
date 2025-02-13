@@ -13,7 +13,7 @@ public class CameraManager : MonoSingleton<CameraManager>
     public float minDistance = 5;
     public float maxDistance = 20;
 
-    private Camera camera;
+    private new Camera camera;
 
     public void Initialize()
     {

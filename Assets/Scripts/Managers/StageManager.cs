@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using DataTable_FortuneHero;
 using UnityEngine.AI;
+using System.Runtime.CompilerServices;
 
 public class StageManager : MonoSingleton<StageManager>
 {
     public int currentStage;
 
-    public GameObject[] heroObjects = new GameObject[4];
-    private List<GameObject> monsterObjects = new List<GameObject>();
+    public GameObject[] heroObjects { get; private set; }
+    public List<GameObject> monsterObjects { get; private set; }
 
     public void Initialize()
     {
         currentStage = 1;
+        heroObjects = new GameObject[4];
+        monsterObjects = new List<GameObject>();
     }
 
 
@@ -34,7 +37,7 @@ public class StageManager : MonoSingleton<StageManager>
 
             if (currentHero != null)
             {
-                HeroController hero = Instantiate(Resources.Load<GameObject>(DataManager.Instance.Hero.Get(currentHero.ID).prefabPath), spawnPos, Quaternion.Euler(0, 0, 0)).GetComponent<HeroController>();
+                HeroController hero = Instantiate(Resources.Load<GameObject>("Units/Hero"), spawnPos, Quaternion.Euler(0, 0, 0)).GetComponent<HeroController>();
                 hero.Initialize(currentHero);
                 heroObjects[i] = hero.gameObject;
             }
@@ -61,10 +64,11 @@ public class StageManager : MonoSingleton<StageManager>
                 offset.z + Mathf.Sin(angle) * 3
             );
 
-            GameObject monster = Instantiate(Resources.Load<GameObject>(DataManager.Instance.Monster.Get(stage.monsterID).prefabPath), spawnPos, Quaternion.identity);
+            MonsterController monster = Instantiate(Resources.Load<GameObject>("Units/Monster"), spawnPos, Quaternion.identity).GetComponent<MonsterController>();
+            monster.Initialize(DataManager.Instance.Monster.Get(stage.monsterID));
             monster.transform.LookAt(Vector3.zero);
 
-            monsterObjects.Add(monster);
+            monsterObjects.Add(monster.gameObject);
         }
     }
 

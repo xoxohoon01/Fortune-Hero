@@ -1,18 +1,122 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using DataTable_FortuneHero;
 
-public class MonsterController : MonoBehaviour
+public class MonsterController : UnitController
 {
-    // Start is called before the first frame update
-    void Start()
+    MonsterData currentMonsterData;
+    NavMeshAgent agent;
+    Animator animator;
+
+    private bool isAttack;
+    private float attackDelay = 0;
+
+    public float hp;
+
+    public void Initialize(MonsterData monster)
     {
-        
+        currentMonsterData = monster;
+        hp = currentMonsterData.hp;
+        attackDelay = currentMonsterData.attackSpeed;
+
+        Instantiate(Resources.Load<GameObject>(currentMonsterData.prefabPath), transform);
     }
 
-    // Update is called once per frame
+    public void PathFinding()
+    {
+        float minDist = 100;
+        for (int i = 0; i < StageManager.Instance.heroObjects.Length; i++)
+        {
+            if (StageManager.Instance.heroObjects[i] != null)
+            {
+                if (Vector3.Distance(transform.position, StageManager.Instance.heroObjects[i].transform.position) < minDist)
+                {
+                    agent.SetDestination(StageManager.Instance.heroObjects[i].transform.position);
+                    minDist = Vector3.Distance(transform.position, StageManager.Instance.heroObjects[i].transform.position);
+                }
+            }
+        }
+    }
+
+    public void Animation()
+    {
+        if (agent.remainingDistance <= agent.stoppingDistance)
+        {
+            animator.SetBool("isMove", false);
+            isAttack = true;
+
+            if (currentMonsterData.type == 1)
+            {
+                agent.avoidancePriority = 1;
+                
+            }
+            else if (currentMonsterData.type == 2)
+            {
+                agent.avoidancePriority = 2;
+            }
+        }
+        else
+        {
+            animator.SetBool("isMove", true);
+            isAttack = false;
+
+            if (currentMonsterData.type == 1)
+            {
+                agent.avoidancePriority = 2;
+            }
+            else if (currentMonsterData.type == 2)
+            {
+                agent.avoidancePriority = 3;
+            }
+        }
+
+        if (isAttack)
+        {
+            if (attackDelay <= 0)
+            {
+                animator.SetTrigger("Attack");
+                attackDelay = currentMonsterData.attackSpeed;
+            }
+        }
+    }
+
+    public void IsAlive()
+    {
+        if (hp <= 0)
+        {
+            StageManager.Instance.monsterObjects.Remove(gameObject);
+            Destroy(gameObject);
+        }
+    }
+
+    void Start()
+    {
+        agent = gameObject.AddComponent<NavMeshAgent>();
+        animator = transform.GetChild(0).GetComponent<Animator>();
+
+        // 고정 초기화
+        agent.angularSpeed = 500;
+
+        // 캐릭터별 초기화
+        agent.speed = currentMonsterData.moveSpeed;
+        agent.stoppingDistance = currentMonsterData.attackRange;
+        if (currentMonsterData.type == 1)
+        {
+            agent.acceleration = 50;
+        }
+        else if (currentMonsterData.type == 2)
+        {
+            agent.acceleration = 10;
+        }
+    }
+
     void Update()
     {
-        
+        PathFinding();
+        Animation();
+
+        IsAlive();
     }
 }

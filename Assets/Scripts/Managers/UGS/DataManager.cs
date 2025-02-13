@@ -10,6 +10,7 @@ public class DataManager : Singleton<DataManager>
     public ItemDataManager Item;
     public MonsterDataManager Monster;
     public StageDataManager Stage;
+    public SkillDataManager Skill;
 
     public void Initialize()
     {
@@ -18,5 +19,6 @@ public class DataManager : Singleton<DataManager>
         Item = new ItemDataManager();
         Monster = new MonsterDataManager();
         Stage = new StageDataManager();
+        Skill = new SkillDataManager();
     }
 }
