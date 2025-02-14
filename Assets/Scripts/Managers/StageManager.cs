@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 public class StageManager : MonoSingleton<StageManager>
 {
     public int currentStage;
+    private bool isStart;
 
     public GameObject[] heroObjects { get; private set; }
     public List<GameObject> monsterObjects { get; private set; }
@@ -47,6 +48,8 @@ public class StageManager : MonoSingleton<StageManager>
 
     public void SpawnMonster()
     {
+        isStart = true;
+
         StageData stage = DataManager.Instance.Stage.Get(3000 + currentStage);
 
         float offsetAngle = Random.Range(0.0f, 360.0f);
@@ -123,12 +126,33 @@ public class StageManager : MonoSingleton<StageManager>
 
     public void EndStage()
     {
-        DespawnAll();
+        DespawnMonster();
     }
 
     public void ClearStage()
     {
-
+        if (isStart)
+        {
+            if (monsterObjects.Count <= 0)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (heroObjects[i] != null)
+                    {
+                        Debug.Log("Å¬¸®¾î!");
+                        isStart = false;
+                        EndStage();
+                        currentStage++;
+                        Invoke("StartStage", 3);
+                        return;
+                    }
+                }
+            }
+        }
     }
 
+    private void Update()
+    {
+        ClearStage();
+    }
 }
