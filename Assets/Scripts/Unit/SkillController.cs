@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DataTable_FortuneHero;
-using UnityEditor.EditorTools;
 
 public class SkillController : MonoBehaviour
 {

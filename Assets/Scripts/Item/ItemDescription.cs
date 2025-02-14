@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DataTable_FortuneHero;
-using static UnityEditor.Progress;
 
 public class ItemDescription : UIBase
 {
