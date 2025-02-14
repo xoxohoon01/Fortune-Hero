@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class CameraManager : MonoSingleton<CameraManager>
 {
@@ -32,14 +33,29 @@ public class CameraManager : MonoSingleton<CameraManager>
 
     Vector3 GetCenterPoint()
     {
-        if (targets.Length == 1)
-            return targets[0].position;
+        int count = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            if (targets[i] != null)
+                count++;
+        }
 
-        Bounds bounds = new Bounds(targets[0].position, Vector3.zero);
-        foreach (Transform target in targets)
-            bounds.Encapsulate(target.position);
+        if (count >= 1)
+        {
+            Bounds bounds = new Bounds(targets[0].position, Vector3.zero);
+            for (int i = 0; i < 4; i++)
+            {
+                if (targets[i] != null)
+                    bounds.Encapsulate(targets[i].position);
+            }
+            return bounds.center;
+        }
+        else
+        {
+            return new Vector3(0, 0, 0);
+        }
 
-        return bounds.center;
+
     }
 
     // 캐릭터 간 최대 거리 계산
@@ -50,8 +66,11 @@ public class CameraManager : MonoSingleton<CameraManager>
         {
             for (int j = i + 1; j < targets.Length; j++)
             {
-                float distance = Vector3.Distance(targets[i].position, targets[j].position);
-                maxDistance = Mathf.Max(maxDistance, distance);
+                if (targets[j] != null)
+                {
+                    float distance = Vector3.Distance(targets[i].position, targets[j].position);
+                    maxDistance = Mathf.Max(maxDistance, distance);
+                }
             }
         }
         return 2 + Mathf.Clamp(maxDistance, minDistance, maxDistance);

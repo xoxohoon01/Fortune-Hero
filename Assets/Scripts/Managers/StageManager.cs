@@ -18,6 +18,8 @@ public class StageManager : MonoSingleton<StageManager>
         currentStage = 1;
         heroObjects = new GameObject[4];
         monsterObjects = new List<GameObject>();
+
+        Invoke("StartStage", 3f);
     }
 
 

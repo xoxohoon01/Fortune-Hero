@@ -131,9 +131,20 @@ public class GameManager : MonoSingleton<GameManager>
         UIManager.Instance.Get<HeroItemInventory>()?.UpdateSlot();
     }
 
+    public void GetHero(int id, int grade)
+    {
+        HeroData heroData = DataManager.Instance.Hero.Get(id);
+
+        heroInventory.heroDatas.Add(new Hero(id, grade));
+
+        DatabaseManager.Instance.SaveData(heroInventory, "HeroData");
+    }
+
     private void Start()
     {
         Initialize();
+        GetHero(2, 1);
+        GetHero(3, 1);
     }
 
     private void Update()

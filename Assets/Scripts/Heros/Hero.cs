@@ -28,18 +28,18 @@ public class Hero
     public int attackSpeedUpgrade;
     public int moveSpeedUpgrade;
 
-    public Hero(int id = 0)
+    public Hero(int id = 0, int grade = 1)
     {
         ID = id;
         if (id != 0)
         {
             level = 1;
-            grade = 1;
+            this.grade = grade;
         }
         else
         {
             level = 0;
-            grade = 0;
+            this.grade = 0;
         }
     }
 }
