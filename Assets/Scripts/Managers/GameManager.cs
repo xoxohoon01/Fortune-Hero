@@ -11,6 +11,7 @@ public class GameManager : MonoSingleton<GameManager>
     public ItemInventoryData itemInventory;
     public void Initialize()
     {
+        Application.targetFrameRate = 60;
         DataManager.Instance.Initialize();
         UIManager.Instance.Initialize();
         StageManager.Instance.Initialize();
