@@ -115,6 +115,10 @@ public class StageManager : MonoSingleton<StageManager>
 
     public void StartStage()
     {
+        if (DataManager.Instance.Stage.Get(3000+currentStage) == null)
+        {
+            currentStage--;
+        }
         DespawnAll();
 
         SpawnHero();
