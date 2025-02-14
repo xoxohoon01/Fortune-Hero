@@ -9,6 +9,7 @@ public class SkillController : MonoBehaviour
     MeshFilter mesh;
     ParticleSystem particle;
 
+    UnitController sender;
     SkillData currentSkillData;
     GameObject targetObject;
     new Rigidbody rigidbody;
@@ -53,16 +54,20 @@ public class SkillController : MonoBehaviour
         {
             if (collider.gameObject == targetObject)
             {
-                targetObject.GetComponent<MonsterController>().hp -= 100;
+                if (currentSkillData.damageType == 1)
+                    targetObject.GetComponent<MonsterController>().hp -= currentSkillData.damage * sender.status.physicalDamage;
+                if (currentSkillData.damageType == 2)
+                    targetObject.GetComponent<MonsterController>().hp -= currentSkillData.damage * sender.status.magicalDamage;
                 isEnd = true;
             }
         }
     }
 
-    public void Initailize(SkillData skillData, GameObject target = null)
+    public void Initailize(SkillData skillData, UnitController sender, GameObject target = null)
     {
         currentSkillData = skillData;
         targetObject = target;
+        this.sender = sender;
 
         Instantiate(Resources.Load(currentSkillData.prefabPath), transform);
         NormalizeMeshSize(currentSkillData.size);

@@ -19,6 +19,7 @@ public class HeroController : UnitController
 
     public void Initialize(Hero hero)
     {
+        status = new Status(hero);
         currentHero = hero;
         currentHeroData = DataManager.Instance.Hero.Get(currentHero.ID);
         Instantiate(Resources.Load<GameObject>(currentHeroData.prefabPath), transform);
@@ -131,7 +132,7 @@ public class HeroController : UnitController
             {
                 GameObject skillObject = Instantiate(Resources.Load<GameObject>("Units/Skill"));
                 skillObject.transform.position = transform.position + skill.offset;
-                skillObject.GetComponent<SkillController>().Initailize(skill, target?.gameObject);
+                skillObject.GetComponent<SkillController>().Initailize(skill, this, target?.gameObject);
             }
         }
     }

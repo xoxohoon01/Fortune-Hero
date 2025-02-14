@@ -60,6 +60,7 @@ namespace DataTable_FortuneHero
 		public System.String name;
 		public System.String description;
 		public System.Int32 type;
+		public System.Int32 damageType;
 		public System.Single damage;
 		public System.Single moveSpeed;
 		public UnityEngine.Vector3 offset;
