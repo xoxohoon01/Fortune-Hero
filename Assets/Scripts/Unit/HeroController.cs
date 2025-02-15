@@ -59,6 +59,7 @@ public class HeroController : UnitController
         {
             agent.isStopped = false;
             agent.SetDestination(target.position);
+
             if (Vector3.Distance(transform.position, target.position) <= currentHeroData.attackRange)
             {
                 isAttack = true;
@@ -108,6 +109,9 @@ public class HeroController : UnitController
     {
         if (isAttack)
         {
+            Quaternion targetRotation = Quaternion.LookRotation(target.position - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime);
+
             if (attackDelay <= 0)
             {
                 animator.SetTrigger("Attack");
