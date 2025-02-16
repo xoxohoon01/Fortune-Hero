@@ -157,6 +157,7 @@ public class GameManager : MonoSingleton<GameManager>
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            StageManager.Instance.EndStage();
             StageManager.Instance.StartStage();
         }
     }

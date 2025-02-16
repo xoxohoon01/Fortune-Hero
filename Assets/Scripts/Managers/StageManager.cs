@@ -132,7 +132,9 @@ public class StageManager : MonoSingleton<StageManager>
 
     public void EndStage()
     {
-        DespawnMonster();
+        isStart = false;
+        DespawnAll();
+        CancelInvoke("StartStage");
     }
 
     public void ClearStage()
@@ -147,7 +149,7 @@ public class StageManager : MonoSingleton<StageManager>
                     {
                         Debug.Log("Å¬¸®¾î!");
                         isStart = false;
-                        EndStage();
+                        DespawnMonster();
                         currentStage++;
                         Invoke("StartStage", 3);
                         return;
