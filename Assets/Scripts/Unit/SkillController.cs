@@ -68,7 +68,7 @@ public class SkillController : MonoBehaviour
         targetObject = target;
         this.sender = sender;
 
-        Instantiate(Resources.Load(currentSkillData.prefabPath), transform);
+        ObjectPoolManager.Instance.GetObject(currentSkillData.prefabPath, transform);
         NormalizeMeshSize(currentSkillData.size);
     }
 

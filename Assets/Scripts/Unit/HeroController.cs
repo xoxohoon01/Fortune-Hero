@@ -19,10 +19,10 @@ public class HeroController : UnitController
 
     public void Initialize(Hero hero)
     {
-        status = new Status(hero);
+        status = new Status(hero);  
         currentHero = hero;
         currentHeroData = DataManager.Instance.Hero.Get(currentHero.ID);
-        Instantiate(Resources.Load<GameObject>(currentHeroData.prefabPath), transform);
+        ObjectPoolManager.Instance.GetObject(currentHeroData.prefabPath, transform);
     }
 
     public void TargetFinding()
@@ -110,7 +110,7 @@ public class HeroController : UnitController
         if (isAttack)
         {
             Quaternion targetRotation = Quaternion.LookRotation(target.position - transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * Time.deltaTime);
 
             if (attackDelay <= 0)
             {
@@ -134,9 +134,9 @@ public class HeroController : UnitController
             }
             else if (skill.type == 2)
             {
-                GameObject skillObject = Instantiate(Resources.Load<GameObject>("Units/Skill"));
+                SkillController skillObject = ObjectPoolManager.Instance.GetObject("Units/Skill").GetComponent<SkillController>();
                 skillObject.transform.position = transform.position + skill.offset;
-                skillObject.GetComponent<SkillController>().Initailize(skill, this, target?.gameObject);
+                skillObject.Initailize(skill, this, target?.gameObject);
             }
         }
     }

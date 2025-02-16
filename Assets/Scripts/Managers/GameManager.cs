@@ -16,6 +16,7 @@ public class GameManager : MonoSingleton<GameManager>
         UIManager.Instance.Initialize();
         StageManager.Instance.Initialize();
         CameraManager.Instance.Initialize();
+        ObjectPoolManager.Instance.Initialize();
 
         // 영웅 불러오기
         HeroInventoryData heroData = DatabaseManager.Instance.LoadData<HeroInventoryData>("HeroData");

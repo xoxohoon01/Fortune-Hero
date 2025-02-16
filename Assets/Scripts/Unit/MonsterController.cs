@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using DataTable_FortuneHero;
+using static UnityEngine.GraphicsBuffer;
 
 public class MonsterController : UnitController
 {
@@ -10,6 +11,7 @@ public class MonsterController : UnitController
     NavMeshAgent agent;
     Animator animator;
 
+    private Transform target;
     private bool isAttack;
     private float attackDelay = 0;
 
@@ -21,7 +23,7 @@ public class MonsterController : UnitController
         hp = currentMonsterData.hp;
         attackDelay = currentMonsterData.attackSpeed;
 
-        Instantiate(Resources.Load<GameObject>(currentMonsterData.prefabPath), transform);
+        ObjectPoolManager.Instance.GetObject(currentMonsterData.prefabPath, transform);
     }
 
     public void PathFinding()
@@ -31,10 +33,12 @@ public class MonsterController : UnitController
         {
             if (StageManager.Instance.heroObjects[i] != null)
             {
-                if (Vector3.Distance(transform.position, StageManager.Instance.heroObjects[i].transform.position) < minDist)
+                GameObject newTarget = StageManager.Instance.heroObjects[i];
+                if (Vector3.Distance(transform.position, newTarget.transform.position) < minDist)
                 {
-                    agent.SetDestination(StageManager.Instance.heroObjects[i].transform.position);
-                    minDist = Vector3.Distance(transform.position, StageManager.Instance.heroObjects[i].transform.position);
+                    agent.SetDestination(newTarget.transform.position);
+                    minDist = Vector3.Distance(transform.position, newTarget.transform.position);
+                    target = newTarget.transform;
                 }
             }
         }
@@ -74,6 +78,9 @@ public class MonsterController : UnitController
 
         if (isAttack)
         {
+            Quaternion targetRotation = Quaternion.LookRotation(target.position - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * Time.deltaTime);
+
             if (attackDelay <= 0)
             {
                 animator.SetTrigger("Attack");

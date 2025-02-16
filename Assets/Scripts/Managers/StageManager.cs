@@ -4,6 +4,7 @@ using UnityEngine;
 using DataTable_FortuneHero;
 using UnityEngine.AI;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 
 public class StageManager : MonoSingleton<StageManager>
 {
@@ -40,7 +41,9 @@ public class StageManager : MonoSingleton<StageManager>
 
             if (currentHero != null)
             {
-                HeroController hero = Instantiate(Resources.Load<GameObject>("Units/Hero"), spawnPos, Quaternion.Euler(0, 0, 0)).GetComponent<HeroController>();
+                HeroController hero = ObjectPoolManager.Instance.GetObject("Units/Hero").GetComponent<HeroController>();
+                hero.transform.position = spawnPos;
+
                 hero.Initialize(currentHero);
                 heroObjects[i] = hero.gameObject;
             }
@@ -69,10 +72,12 @@ public class StageManager : MonoSingleton<StageManager>
                 offset.z + Mathf.Sin(angle) * 3
             );
 
-            MonsterController monster = Instantiate(Resources.Load<GameObject>("Units/Monster"), spawnPos, Quaternion.identity).GetComponent<MonsterController>();
-            monster.Initialize(DataManager.Instance.Monster.Get(stage.monsterID));
+
+            MonsterController monster = ObjectPoolManager.Instance.GetObject("Units/Monster").GetComponent<MonsterController>();
+            monster.transform.position = spawnPos;
             monster.transform.LookAt(Vector3.zero);
 
+            monster.Initialize(DataManager.Instance.Monster.Get(stage.monsterID));
             monsterObjects.Add(monster.gameObject);
         }
     }
