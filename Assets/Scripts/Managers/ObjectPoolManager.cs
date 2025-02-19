@@ -27,6 +27,7 @@ public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
 
         AddPool("Projectiles/Arrow");
         AddPool("Projectiles/Fireball");
+        AddPool("Projectiles/Icebolt");
 
         AddPool("Units/Hero");
         AddPool("Units/Monster");

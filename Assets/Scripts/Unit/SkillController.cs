@@ -15,22 +15,6 @@ public class SkillController : MonoBehaviour
 
     bool isEnd;
 
-    private void NormalizeMeshSize(Vector3 targetSize)
-    {
-        mesh = GetComponentInChildren<MeshFilter>();
-        particle = GetComponentInChildren<ParticleSystem>();
-        if (mesh?.sharedMesh != null)
-        {
-            Vector3 meshSize = mesh.sharedMesh.bounds.size;
-
-            if (meshSize.x == 0 || meshSize.y == 0 || meshSize.z == 0)
-                return;
-
-            Vector3 scale = new Vector3(targetSize.x / meshSize.x, targetSize.y / meshSize.y, targetSize.z / meshSize.z);
-            transform.localScale = scale;
-        }
-    }
-
     private void Move()
     {
         if (targetObject != null)
@@ -47,7 +31,7 @@ public class SkillController : MonoBehaviour
 
     private void OnHit()
     {
-        Collider[] colliders = Physics.OverlapBox(transform.position + (Vector3.up * (transform.localScale.y/2)), transform.localScale / 2, transform.rotation);
+        Collider[] colliders = Physics.OverlapBox(transform.position + (Vector3.up * (currentSkillData.size.y/2)), currentSkillData.size / 2, transform.rotation);
         
         foreach(Collider collider in colliders)
         {
@@ -69,7 +53,8 @@ public class SkillController : MonoBehaviour
         this.sender = sender;
 
         ObjectPoolManager.Instance.GetObject(currentSkillData.prefabPath, transform);
-        NormalizeMeshSize(currentSkillData.size);
+        mesh = GetComponentInChildren<MeshFilter>();
+        particle = GetComponentInChildren<ParticleSystem>();
     }
 
     private void Start()
@@ -84,6 +69,7 @@ public class SkillController : MonoBehaviour
         OnHit();
         if (isEnd)
         {
+            mesh?.gameObject.SetActive(false);
             if (particle != null)
             {
                 particle.Stop();
@@ -104,6 +90,6 @@ public class SkillController : MonoBehaviour
 
         // 와이어 큐브를 그리기
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(Vector3.zero + (Vector3.up * (transform.localScale.y / 2)), transform.localScale);
+        Gizmos.DrawWireCube(Vector3.zero + (Vector3.up * (currentSkillData.size.y / 2)), currentSkillData.size);
     }
 }

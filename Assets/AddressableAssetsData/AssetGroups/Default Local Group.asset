@@ -92,16 +92,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3d97d48105005b34e9c5574f20cae44c
-    m_Address: Assets/Prefabs/Projectiles/Arrow.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c8a61883a400e1c4699abf5ba0e41891
-    m_Address: Assets/Prefabs/Projectiles/Fireball.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bd02fa38bd08eaf4e9dfa9eec4b95e07
     m_Address: Assets/Prefabs/Units/Hero.prefab
     m_ReadOnly: 0
