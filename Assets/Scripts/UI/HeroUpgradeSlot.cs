@@ -29,7 +29,7 @@ public class HeroUpgradeSlot : UIBase
 
     public void Upgrade()
     {
-        upgradeDelegate.Invoke();
+        upgradeDelegate?.Invoke();
     }
 
     public void ChangeHero(int upgrade)

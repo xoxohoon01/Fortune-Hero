@@ -156,6 +156,15 @@ public class HeroInventory : UIBase
         }
     }
 
+    public void OpenHeroUpgrade()
+    {
+        if (currentSelectedHero != -1)
+        {
+            UIManager.Instance.Show<HeroUpgrade>("FloatingUI");
+            UIManager.Instance.Get<HeroUpgrade>().ChangeHero(currentSelectedHero);
+        }
+    }
+
     private void Start()
     {
         Initialize();

@@ -10,6 +10,7 @@ public class HeroSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        // ¿µ¿õ µî·Ï¸ðµå
         if (UIManager.Instance.Get<HeroInventory>().isChangeSlotMode)
         {
             if (UIManager.Instance.Get<HeroInventory>().currentSelectedHeroInventory != -1)
@@ -34,6 +35,8 @@ public class HeroSlot : MonoBehaviour, IPointerClickHandler
             UIManager.Instance.Get<HeroInventory>().ChangeHero(null);
             DatabaseManager.Instance.SaveData(GameManager.Instance.heroInventory, "HeroData");
         }
+        
+        // ¿µ¿õ µî·Ï¸ðµå°¡ ¾Æ´Ò ¶§
         else
         {
             if (GameManager.Instance.heroInventory.hero[currentSlot] != null)
