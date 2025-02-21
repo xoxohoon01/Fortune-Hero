@@ -145,8 +145,6 @@ public class GameManager : MonoSingleton<GameManager>
     private void Start()
     {
         Initialize();
-        GetHero(2, 1);
-        GetHero(3, 1);
     }
 
     private void Update()

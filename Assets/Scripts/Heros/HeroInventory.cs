@@ -32,7 +32,7 @@ public class HeroInventory : UIBase
         isChangeSlotMode = false;
 
         heroName.text = "";
-        currentHeroSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = "";
+        currentHeroSlot.transform.GetChild(0).GetComponent<Image>().sprite = null;
     }
 
     public override void Initialize()
@@ -53,12 +53,12 @@ public class HeroInventory : UIBase
         if (currentHero != null)
         {
             heroName.text = DataManager.Instance.Hero.Get(currentHero.ID)?.name;
-            currentHeroSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = DataManager.Instance.Hero.Get(currentHero.ID)?.name;
+            currentHeroSlot.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Heroes/" + DataManager.Instance.Hero.Get(currentHero.ID)?.name);
         }
         else
         {
             heroName.text = "";
-            currentHeroSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = "";
+            currentHeroSlot.transform.GetChild(0).GetComponent<Image>().sprite = null;
         }
     }
 
@@ -93,10 +93,10 @@ public class HeroInventory : UIBase
 
     public void UpdateHeroSlot()
     {
-        heroSlot1.transform.GetChild(0).GetComponent<TMP_Text>().text = GameManager.Instance.heroInventory.hero[0] != null ? DataManager.Instance.Hero.Get(GameManager.Instance.heroInventory.hero[0].ID).name : "";
-        heroSlot2.transform.GetChild(0).GetComponent<TMP_Text>().text = GameManager.Instance.heroInventory.hero[1] != null ? DataManager.Instance.Hero.Get(GameManager.Instance.heroInventory.hero[1].ID).name : "";
-        heroSlot3.transform.GetChild(0).GetComponent<TMP_Text>().text = GameManager.Instance.heroInventory.hero[2] != null ? DataManager.Instance.Hero.Get(GameManager.Instance.heroInventory.hero[2].ID).name : "";
-        heroSlot4.transform.GetChild(0).GetComponent<TMP_Text>().text = GameManager.Instance.heroInventory.hero[3] != null ? DataManager.Instance.Hero.Get(GameManager.Instance.heroInventory.hero[3].ID).name : "";
+        heroSlot1.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.heroInventory.hero[0] != null ? Resources.Load<Sprite>("Sprites/Heroes/" + DataManager.Instance.Hero.Get(GameManager.Instance.heroInventory.hero[0].ID).name) : null;
+        heroSlot2.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.heroInventory.hero[1] != null ? Resources.Load<Sprite>("Sprites/Heroes/" + DataManager.Instance.Hero.Get(GameManager.Instance.heroInventory.hero[1].ID).name) : null;
+        heroSlot3.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.heroInventory.hero[2] != null ? Resources.Load<Sprite>("Sprites/Heroes/" + DataManager.Instance.Hero.Get(GameManager.Instance.heroInventory.hero[2].ID).name) : null;
+        heroSlot4.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.heroInventory.hero[3] != null ? Resources.Load<Sprite>("Sprites/Heroes/" + DataManager.Instance.Hero.Get(GameManager.Instance.heroInventory.hero[3].ID).name) : null;
     }
 
     public void UpdateHeroInventory()

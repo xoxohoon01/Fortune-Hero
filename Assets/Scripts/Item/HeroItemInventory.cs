@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class HeroItemInventory : UIBase
 {
     public TMP_Text heroName;
+    public Image currentHeroSlot;
 
     public Image WeaponSlot;
     public Image GloveSlot;
@@ -108,6 +109,7 @@ public class HeroItemInventory : UIBase
     public void ChangeHero(int number)
     {
         Hero hero = GameManager.Instance.heroInventory.hero[number];
+        currentHeroSlot.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Heroes/" + DataManager.Instance.Hero.Get(hero.ID).name);
 
         heroName.text = DataManager.Instance.Hero.Get(hero.ID).name;
         WeaponSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Weapon != null ? DataManager.Instance.Item.Get(hero.Weapon.id).name : "";
