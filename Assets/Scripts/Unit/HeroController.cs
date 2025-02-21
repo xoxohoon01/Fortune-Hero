@@ -130,7 +130,9 @@ public class HeroController : UnitController
             if (skill.type == 1)
             {
                 MonsterController monster = target.GetComponent<MonsterController>();
-                monster.hp -= currentHeroData.physicalDamage;
+                monster.hp -= (currentHeroData.physicalDamage) +
+                    (currentHero.level * currentHeroData.physicalDamage_PerLevel) +
+                    (currentHero.grade * currentHeroData.physicalDamage_PerGrade);
             }
             else if (skill.type == 2)
             {
