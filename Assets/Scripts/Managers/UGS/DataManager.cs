@@ -12,6 +12,8 @@ public class DataManager : Singleton<DataManager>
     public StageDataManager Stage;
     public SkillDataManager Skill;
 
+    public BasicHeroGachaDataManager BasicHeroGacha;
+
     public void Initialize()
     {
         UnityGoogleSheet.LoadAllData();
@@ -20,5 +22,7 @@ public class DataManager : Singleton<DataManager>
         Monster = new MonsterDataManager();
         Stage = new StageDataManager();
         Skill = new SkillDataManager();
+
+        BasicHeroGacha = new BasicHeroGachaDataManager();
     }
 }

@@ -9,14 +9,13 @@ public class HUDButtons : UIBase
     {
         UIManager.Instance.Show<ItemInventory>("FloatingUI");
     }
-
-    public void OpenHeroUpgradeMenu()
-    {
-        UIManager.Instance.Show<HeroUpgrade>("FloatingUI");
-    }
-
     public void OpenHeroMenu()
     {
         UIManager.Instance.Show<HeroInventory>("FloatingUI");
+    }
+
+    public void OpenGachaShopMenu()
+    {
+        UIManager.Instance.Show<GachaShop>("FloatingUI");
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class HeroInventorySlot : UIBase, IPointerClickHandler
@@ -14,7 +15,7 @@ public class HeroInventorySlot : UIBase, IPointerClickHandler
         heroSlotNumber = number;
         currentHero = hero;
         if (currentHero.ID != 0)
-            transform.GetChild(0).GetComponent<TMP_Text>().text = DataManager.Instance.Hero.Get(currentHero.ID).name;
+            transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Heroes/" + DataManager.Instance.Hero.Get(currentHero.ID).name);
     }
     public void OnPointerClick(PointerEventData eventData)
     {

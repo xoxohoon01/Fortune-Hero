@@ -140,6 +140,7 @@ public class GameManager : MonoSingleton<GameManager>
         heroInventory.heroDatas.Add(new Hero(id, grade));
 
         DatabaseManager.Instance.SaveData(heroInventory, "HeroData");
+        UIManager.Instance.Get<HeroInventory>()?.UpdateHeroInventory();
     }
 
     private void Start()
@@ -158,6 +159,16 @@ public class GameManager : MonoSingleton<GameManager>
         {
             StageManager.Instance.EndStage();
             StageManager.Instance.StartStage();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            GetHero(1, 0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            GetItem(1001);
         }
     }
 
