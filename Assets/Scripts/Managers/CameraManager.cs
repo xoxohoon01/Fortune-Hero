@@ -64,12 +64,15 @@ public class CameraManager : MonoSingleton<CameraManager>
         float maxDistance = 0;
         for (int i = 0; i < targets.Length; i++)
         {
-            for (int j = i + 1; j < targets.Length; j++)
+            if (targets[i] != null)
             {
-                if (targets[j] != null)
+                for (int j = i + 1; j < targets.Length; j++)
                 {
-                    float distance = Vector3.Distance(targets[i].position, targets[j].position);
-                    maxDistance = Mathf.Max(maxDistance, distance);
+                    if (targets[j] != null)
+                    {
+                        float distance = Vector3.Distance(targets[i].position, targets[j].position);
+                        maxDistance = Mathf.Max(maxDistance, distance);
+                    }
                 }
             }
         }
