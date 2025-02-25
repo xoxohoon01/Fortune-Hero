@@ -21,7 +21,7 @@ public class HeroUpgrade : UIBase
     public override void Hide()
     {
         selectedHero = -1;
-        UpdateSelectedHero();
+        UpdateSelectedHero(null);
     }
 
     public override void Initialize()
@@ -43,52 +43,46 @@ public class HeroUpgrade : UIBase
         upgradeSlots[4].Initialize("MagicalArmor", 10);
     }
 
-    public void ChangeHero(int slotNumber)
+    public void ChangeHero(Hero hero)
     {
         if (upgradeSlots == null)
         {
             Initialize();
         }
 
-        if (GameManager.Instance.heroInventory.hero[slotNumber] != null)
+        if (hero != null)
         {
-            selectedHero = slotNumber;
+            scroll.gameObject.SetActive(true);
 
-            if (selectedHero != -1)
-            {
-                scroll.gameObject.SetActive(true);
+            // 선택한 영웅 디스플레이 변경
+            UpdateSelectedHero(hero);
 
-                // 선택한 영웅 디스플레이 변경
-                UpdateSelectedHero();
+            // 업데이트
+            upgradeSlots[0].ChangeHero(hero.hpUpgrade);
+            upgradeSlots[1].ChangeHero(hero.physicalDamageUpgrade);
+            upgradeSlots[2].ChangeHero(hero.magicalDamageUpgrade);
+            upgradeSlots[3].ChangeHero(hero.physicalArmorUpgrade);
+            upgradeSlots[4].ChangeHero(hero.magicalArmorUpgrade);
 
-                // 업데이트
-                upgradeSlots[0].ChangeHero(GameManager.Instance.heroInventory.hero[selectedHero].hpUpgrade);
-                upgradeSlots[1].ChangeHero(GameManager.Instance.heroInventory.hero[selectedHero].physicalDamageUpgrade);
-                upgradeSlots[2].ChangeHero(GameManager.Instance.heroInventory.hero[selectedHero].magicalDamageUpgrade);
-                upgradeSlots[3].ChangeHero(GameManager.Instance.heroInventory.hero[selectedHero].physicalArmorUpgrade);
-                upgradeSlots[4].ChangeHero(GameManager.Instance.heroInventory.hero[selectedHero].magicalArmorUpgrade);
-
-                // 업그레이드 델리게이트 연결
-                upgradeSlots[0].upgradeDelegate = () => { Upgrade(ref GameManager.Instance.heroInventory.hero[selectedHero].hpUpgrade); upgradeSlots[0].ChangeHero(GameManager.Instance.heroInventory.hero[selectedHero].hpUpgrade); };
-                upgradeSlots[1].upgradeDelegate = () => { Upgrade(ref GameManager.Instance.heroInventory.hero[selectedHero].physicalDamageUpgrade); upgradeSlots[1].ChangeHero(GameManager.Instance.heroInventory.hero[selectedHero].physicalDamageUpgrade); };
-                upgradeSlots[2].upgradeDelegate = () => { Upgrade(ref GameManager.Instance.heroInventory.hero[selectedHero].magicalDamageUpgrade); upgradeSlots[2].ChangeHero(GameManager.Instance.heroInventory.hero[selectedHero].magicalDamageUpgrade); };
-                upgradeSlots[3].upgradeDelegate = () => { Upgrade(ref GameManager.Instance.heroInventory.hero[selectedHero].physicalArmorUpgrade); upgradeSlots[3].ChangeHero(GameManager.Instance.heroInventory.hero[selectedHero].physicalArmorUpgrade); };
-                upgradeSlots[4].upgradeDelegate = () => { Upgrade(ref GameManager.Instance.heroInventory.hero[selectedHero].magicalArmorUpgrade); upgradeSlots[4].ChangeHero(GameManager.Instance.heroInventory.hero[selectedHero].magicalArmorUpgrade); };
-            }
+            // 업그레이드 델리게이트 연결
+            upgradeSlots[0].upgradeDelegate = () => { Upgrade(ref hero.hpUpgrade); upgradeSlots[0].ChangeHero(hero.hpUpgrade); };
+            upgradeSlots[1].upgradeDelegate = () => { Upgrade(ref hero.physicalDamageUpgrade); upgradeSlots[1].ChangeHero(hero.physicalDamageUpgrade); };
+            upgradeSlots[2].upgradeDelegate = () => { Upgrade(ref hero.magicalDamageUpgrade); upgradeSlots[2].ChangeHero(hero.magicalDamageUpgrade); };
+            upgradeSlots[3].upgradeDelegate = () => { Upgrade(ref hero.physicalArmorUpgrade); upgradeSlots[3].ChangeHero(hero.physicalArmorUpgrade); };
+            upgradeSlots[4].upgradeDelegate = () => { Upgrade(ref hero.magicalArmorUpgrade); upgradeSlots[4].ChangeHero(hero.magicalArmorUpgrade); };
         }
     }
 
-    public void UpdateSelectedHero()
+    public void UpdateSelectedHero(Hero hero)
     {
-        if (selectedHero != -1)
+        if (hero != null)
         {
-            currentHero.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Heroes/" + DataManager.Instance.Hero.Get(GameManager.Instance.heroInventory.hero[selectedHero].ID).name);
-            heroName.text = DataManager.Instance.Hero.Get(GameManager.Instance.heroInventory.hero[selectedHero].ID).name;
+            currentHero.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Heroes/" + DataManager.Instance.Hero.Get(hero.ID).name);
+            heroName.text = DataManager.Instance.Hero.Get(hero.ID).name;
         }
         else
         {
-            currentHero.transform.GetChild(0).GetComponent<Image>().sprite = null;
-            heroName.text = "";
+
         }
     }
 
@@ -105,6 +99,5 @@ public class HeroUpgrade : UIBase
     {
         if (upgradeSlots == null)
             Initialize();
-        UpdateSelectedHero();
     }
 }

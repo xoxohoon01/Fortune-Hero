@@ -147,12 +147,12 @@ public class HeroInventory : UIBase
         if (currentSelectedHero != -1)
         {
             UIManager.Instance.Show<HeroItemInventory>("FloatingUI");
-            UIManager.Instance.Get<HeroItemInventory>().ChangeHero(currentSelectedHero);
+            UIManager.Instance.Get<HeroItemInventory>().ChangeHero(GameManager.Instance.heroInventory.hero[currentSelectedHero]);
         }
         else if (currentSelectedHeroInventory != -1)
         {
             UIManager.Instance.Show<HeroItemInventory>("FloatingUI");
-            UIManager.Instance.Get<HeroItemInventory>().ChangeHero(currentSelectedHeroInventory);
+            UIManager.Instance.Get<HeroItemInventory>().ChangeHero(GameManager.Instance.heroInventory.heroDatas[currentSelectedHeroInventory]);
         }
     }
 
@@ -161,7 +161,12 @@ public class HeroInventory : UIBase
         if (currentSelectedHero != -1)
         {
             UIManager.Instance.Show<HeroUpgrade>("FloatingUI");
-            UIManager.Instance.Get<HeroUpgrade>().ChangeHero(currentSelectedHero);
+            UIManager.Instance.Get<HeroUpgrade>().ChangeHero(GameManager.Instance.heroInventory.hero[currentSelectedHero]);
+        }
+        else if (currentSelectedHeroInventory != -1)
+        {
+            UIManager.Instance.Show<HeroUpgrade>("FloatingUI");
+            UIManager.Instance.Get<HeroUpgrade>().ChangeHero(GameManager.Instance.heroInventory.heroDatas[currentSelectedHeroInventory]);
         }
     }
 

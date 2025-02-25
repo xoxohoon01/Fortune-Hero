@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class HeroSlotInUpgrade : MonoBehaviour, IPointerClickHandler
 {
-    public int currentSlot;
+    public Hero currentSlot;
 
     public void OnPointerClick(PointerEventData eventData)
     {

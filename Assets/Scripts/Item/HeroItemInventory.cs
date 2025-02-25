@@ -106,9 +106,9 @@ public class HeroItemInventory : UIBase
         isInitialized = true;
     }
 
-    public void ChangeHero(int number)
+    public void ChangeHero(Hero hero)
     {
-        Hero hero = GameManager.Instance.heroInventory.hero[number];
+        Hero currentHero = hero;
         currentHeroSlot.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Heroes/" + DataManager.Instance.Hero.Get(hero.ID).name);
 
         heroName.text = DataManager.Instance.Hero.Get(hero.ID).name;
