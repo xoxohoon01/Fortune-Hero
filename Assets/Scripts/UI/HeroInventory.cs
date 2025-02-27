@@ -156,20 +156,6 @@ public class HeroInventory : UIBase
         }
     }
 
-    public void OpenHeroUpgrade()
-    {
-        if (currentSelectedHero != -1)
-        {
-            UIManager.Instance.Show<HeroUpgrade>("FloatingUI");
-            UIManager.Instance.Get<HeroUpgrade>().ChangeHero(currentSelectedHero);
-        }
-        else if (currentSelectedHeroInventory != -1)
-        {
-            UIManager.Instance.Show<HeroUpgrade>("FloatingUI");
-            UIManager.Instance.Get<HeroUpgrade>().ChangeHeroInventory(currentSelectedHeroInventory);
-        }
-    }
-
     public void OpenHeroLevelUp()
     {
         if (currentSelectedHero != -1)

@@ -2974,7 +2974,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6560138364532561274}
         m_TargetAssemblyTypeName: HeroInventory, Assembly-CSharp
-        m_MethodName: OpenHeroUpgrade
+        m_MethodName: OpenHeroTranscend
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

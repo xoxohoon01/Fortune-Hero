@@ -68,7 +68,6 @@ public class HeroTranscendence : UIBase
                 UpdateHeroInventory();
 
                 DatabaseManager.Instance.SaveData(GameManager.Instance.heroInventory, "HeroData");
-                UIManager.Instance.Get<HeroUpgrade>()?.UpdateSelectedHero();
                 UIManager.Instance.Get<HeroInventory>()?.UpdateHeroInventory();
             }
         }
@@ -83,7 +82,6 @@ public class HeroTranscendence : UIBase
                 UpdateHeroInventory();
 
                 DatabaseManager.Instance.SaveData(GameManager.Instance.heroInventory, "HeroData");
-                UIManager.Instance.Get<HeroUpgrade>()?.UpdateSelectedHero();
                 UIManager.Instance.Get<HeroInventory>()?.UpdateHeroInventory();
             }
         }
