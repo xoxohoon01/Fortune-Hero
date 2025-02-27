@@ -57,7 +57,7 @@ public class HeroTranscendence : UIBase
 
     public void Transcend()
     {
-        if (currentHeroSlotNumber != -1 && currentHeroSlotNumber != selectedHeroSlotNumber)
+        if (currentHeroSlotNumber != -1 && selectedHeroSlotNumber != -1 && currentHeroSlotNumber != selectedHeroSlotNumber)
         {
             if (currentHero != GameManager.Instance.heroInventory.heroDatas[selectedHeroSlotNumber])
             {
@@ -69,6 +69,8 @@ public class HeroTranscendence : UIBase
 
                 DatabaseManager.Instance.SaveData(GameManager.Instance.heroInventory, "HeroData");
                 UIManager.Instance.Get<HeroInventory>()?.UpdateHeroInventory();
+
+                selectedHeroSlotNumber = -1;
             }
         }
         else if (currentHero != null && selectedHeroSlotNumber != -1)
@@ -83,6 +85,8 @@ public class HeroTranscendence : UIBase
 
                 DatabaseManager.Instance.SaveData(GameManager.Instance.heroInventory, "HeroData");
                 UIManager.Instance.Get<HeroInventory>()?.UpdateHeroInventory();
+
+                selectedHeroSlotNumber = -1;
             }
         }
     }
@@ -123,12 +127,12 @@ public class HeroTranscendence : UIBase
                     targetHero = GameManager.Instance.heroInventory.heroDatas[i];
                     if (currentHeroSlotNumber != -1 && GameManager.Instance.heroInventory.hero[currentHeroSlotNumber].ID == targetHero.ID)
                     {
-                        Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(targetHero, i);
+                        Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(targetHero, i, "HeroTranscendence");
                         count++;
                     }
                     else if (currentHeroInventorySlotNumber != -1 && GameManager.Instance.heroInventory.heroDatas[currentHeroInventorySlotNumber].ID == targetHero.ID && currentHeroInventorySlotNumber != i)
                     {
-                        Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(targetHero, i);
+                        Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(targetHero, i, "HeroTranscendence");
                         count++;
                     }
                 }
@@ -136,7 +140,7 @@ public class HeroTranscendence : UIBase
             for (int i = count; i < 30; i++)
             {
                 targetHero = new Hero();
-                Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(targetHero, i);
+                Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(targetHero, i, "HeroTranscendence");
             }
         }
         else
@@ -153,11 +157,11 @@ public class HeroTranscendence : UIBase
                 {
                     if (currentHeroSlotNumber != -1)
                     {
-                        Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(targetHero, i);
+                        Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(targetHero, i, "HeroTranscendence");
                     }
                     else if (currentHeroInventorySlotNumber != -1 && currentHeroInventorySlotNumber != selectedHeroSlotNumber)
                     {
-                        Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(currentHero, i);
+                        Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(currentHero, i, "HeroTranscendence");
                     }
                 }
             }

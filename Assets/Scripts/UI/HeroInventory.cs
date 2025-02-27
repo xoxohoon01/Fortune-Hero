@@ -118,13 +118,13 @@ public class HeroInventory : UIBase
                         currentHero = GameManager.Instance.heroInventory.heroDatas[i];
                     else
                         currentHero = new Hero();
-                    Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(currentHero, i);
+                    Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(currentHero, i, "HeroInventory");
                     count++;
                 }
             }
             for (int i = count; i < 30; i++)
             {
-                Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(new Hero(), i);
+                Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(new Hero(), i, "HeroInventory");
             }
         }
         else
@@ -136,7 +136,7 @@ public class HeroInventory : UIBase
                     currentHero = GameManager.Instance.heroInventory.heroDatas[i];
                 else
                     currentHero = new Hero();
-                Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(currentHero, i);
+                Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).GetComponent<HeroInventorySlot>().Initialize(currentHero, i, "HeroInventory");
             }
         }
     }
