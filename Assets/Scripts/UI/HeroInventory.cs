@@ -172,7 +172,16 @@ public class HeroInventory : UIBase
 
     public void OpenHeroLevelUp()
     {
-
+        if (currentSelectedHero != -1)
+        {
+            UIManager.Instance.Show<HeroLevelUP>("FloatingUI");
+            UIManager.Instance.Get<HeroLevelUP>().Initialize(currentSelectedHero);
+        }
+        else if (currentSelectedHeroInventory != -1)
+        {
+            UIManager.Instance.Show<HeroLevelUP>("FloatingUI");
+            UIManager.Instance.Get<HeroLevelUP>().InitializeInventory(currentSelectedHeroInventory);
+        }
     }
 
     public void OpenHeroTranscend()

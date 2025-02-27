@@ -4,6 +4,9 @@ using System.IO;
 using UnityEngine;
 using Newtonsoft.Json;
 using DataTable_FortuneHero;
+using System.Linq;
+using Unity.VisualScripting.FullSerializer;
+using static UnityEditor.Progress;
 
 public class GameManager : MonoSingleton<GameManager>
 {
@@ -146,6 +149,110 @@ public class GameManager : MonoSingleton<GameManager>
     public void RemoveHero(int slotNumber)
     {
         heroInventory.heroDatas.Remove(heroInventory.heroDatas[slotNumber]);
+    }
+
+    public bool hasItem(Item item)
+    {
+        int count = 0;
+        for (int i = 0; i < itemInventory.itemDatas.Count; i++)
+        {
+            if (itemInventory.itemDatas[i].id == item.id)
+            {
+                count += itemInventory.itemDatas[i].amount;
+            }
+            if (count >= item.amount) return true;
+        }
+        return false;
+    }
+
+    public bool hasItems(List<Item> items)
+    {
+        List<Item> targetItems = new List<Item>();
+        foreach(var item in items)
+        {
+            targetItems.Add(new Item(item.id, item.amount));
+        }
+
+        List<Item> deletedItems = new List<Item>();
+        for (int j = 0; j < targetItems.Count; j++)
+        {
+            int count = 0;
+            for (int i = 0; i < itemInventory.itemDatas.Count; i++)
+            {
+                if (itemInventory.itemDatas[i].id == targetItems[j].id)
+                {
+                    count += itemInventory.itemDatas[i].amount;
+                }
+            }
+            if (count >= targetItems[j].amount)
+            {
+                deletedItems.Add(targetItems[j]);
+            }
+        }
+
+        foreach(var item in deletedItems)
+        {
+            targetItems.Remove(item);
+        }
+
+        if (targetItems.Count <= 0) return true;
+        return false;
+    }
+
+    public void RemoveItem(Item item)
+    {
+        for (int i = 0; i < itemInventory.itemDatas.Count; i++)
+        {
+            if (itemInventory.itemDatas[i].id == item.id)
+            {
+                if (itemInventory.itemDatas[i].amount > item.amount)
+                    itemInventory.itemDatas[i].amount -= item.amount;
+                else
+                {
+                    item.amount -= itemInventory.itemDatas[i].amount;
+                    itemInventory.itemDatas[i].amount = 0;
+                }
+            }
+        }
+
+        for (int i = 0; i < itemInventory.itemDatas.Count; i++)
+        {
+            if (itemInventory.itemDatas[i].amount <= 0)
+            {
+                itemInventory.itemDatas.Remove(itemInventory.itemDatas[i]);
+            }
+        }
+    }
+
+    public void RemoveItems(List<Item> items)
+    {
+        for (int j = 0; j < items.Count; j++)
+        {
+            for (int i = 0; i < itemInventory.itemDatas.Count; i++)
+            {
+                if (itemInventory.itemDatas[i].id == items[j].id)
+                {
+                    if (itemInventory.itemDatas[i].amount > items[j].amount)
+                    {
+                        itemInventory.itemDatas[i].amount -= items[j].amount;
+                        continue;
+                    }
+                    else
+                    {
+                        items[j].amount -= itemInventory.itemDatas[i].amount;
+                        itemInventory.itemDatas[i].amount = 0;
+                    }
+                }
+            }
+
+            for (int i = 0; i < itemInventory.itemDatas.Count; i++)
+            {
+                if (itemInventory.itemDatas[i].amount <= 0)
+                {
+                    itemInventory.itemDatas.Remove(itemInventory.itemDatas[i]);
+                }
+            }
+        }
     }
 
     private void Start()

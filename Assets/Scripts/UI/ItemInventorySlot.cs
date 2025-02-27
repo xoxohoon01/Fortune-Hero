@@ -64,5 +64,11 @@ public class ItemInventorySlot : MonoBehaviour, IPointerClickHandler
             ItemDescription item = UIManager.Instance.Get<ItemDescription>();
             item.Initialize(currentItem, itemSlotNumber);
         }
+
+        if (UIManager.Instance.Get<HeroLevelUP>() != null)
+        {
+            UIManager.Instance.Get<HeroLevelUP>().selectedItem.Add(currentItem);
+            UIManager.Instance.Get<HeroLevelUP>().UpdateInventory();
+        }
     }
 }

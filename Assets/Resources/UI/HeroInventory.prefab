@@ -741,7 +741,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6560138364532561274}
         m_TargetAssemblyTypeName: HeroInventory, Assembly-CSharp
-        m_MethodName: OpenHeroUpgrade
+        m_MethodName: OpenHeroLevelUp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1902,8 +1902,8 @@ MonoBehaviour:
   heroSlot4: {fileID: 3691572936475038099}
   heroName: {fileID: 8774053024404720151}
   scroll: {fileID: 4152147008649255451}
-  currentSelectedHeroInventory: 0
-  currentSelectedHero: 0
+  currentSelectedHeroInventory: -1
+  currentSelectedHero: -1
 --- !u!1 &5965389216848334869
 GameObject:
   m_ObjectHideFlags: 0
