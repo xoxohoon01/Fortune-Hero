@@ -8,81 +8,61 @@ using UnityEngine.UI;
 public class HeroUpgrade : UIBase
 {
     public TMP_Text heroName;
-    public Image currentHero;
-    public ScrollRect scroll;
+    public TMP_Text heroLevel;
+    public TMP_Text heroTranscendence;
+    public TMP_Text heroGrade;
+    public Image currentHeroSprite;
 
-    private int selectedHero = -1;
-
-    private List<HeroUpgradeSlot> upgradeSlots;
+    private int currentHeroSlotNumber;
+    private int currentHeroSlotNumberInventory;
+    private Hero currentHero;
 
     public delegate void UpgradeDelegate();
     public UpgradeDelegate upgradeDelegate;
 
     public override void Hide()
     {
-        selectedHero = -1;
-        UpdateSelectedHero(null);
+        UpdateSelectedHero();
     }
 
-    public override void Initialize()
+    public void ChangeHero(int heroSlotNumber)
     {
-        base.Initialize();
-
-        upgradeSlots = new List<HeroUpgradeSlot>
+        if (heroSlotNumber != -1)
         {
-            Instantiate(Resources.Load<GameObject>("UI/HeroUpgradeSlot"), scroll.content).GetComponent<HeroUpgradeSlot>(),
-            Instantiate(Resources.Load<GameObject>("UI/HeroUpgradeSlot"), scroll.content).GetComponent<HeroUpgradeSlot>(),
-            Instantiate(Resources.Load<GameObject>("UI/HeroUpgradeSlot"), scroll.content).GetComponent<HeroUpgradeSlot>(),
-            Instantiate(Resources.Load<GameObject>("UI/HeroUpgradeSlot"), scroll.content).GetComponent<HeroUpgradeSlot>(),
-            Instantiate(Resources.Load<GameObject>("UI/HeroUpgradeSlot"), scroll.content).GetComponent<HeroUpgradeSlot>()
-        };
-        upgradeSlots[0].Initialize("HP", 10);
-        upgradeSlots[1].Initialize("PhysicalDamage", 10);
-        upgradeSlots[2].Initialize("MagicalDamage", 10);
-        upgradeSlots[3].Initialize("PhysicalArmor", 10);
-        upgradeSlots[4].Initialize("MagicalArmor", 10);
-    }
+            currentHeroSlotNumber = heroSlotNumber;
+            currentHeroSlotNumberInventory = -1;
 
-    public void ChangeHero(Hero hero)
-    {
-        if (upgradeSlots == null)
-        {
-            Initialize();
-        }
-
-        if (hero != null)
-        {
-            scroll.gameObject.SetActive(true);
+            currentHero = GameManager.Instance.heroInventory.hero[heroSlotNumber];
 
             // 선택한 영웅 디스플레이 변경
-            UpdateSelectedHero(hero);
-
-            // 업데이트
-            upgradeSlots[0].ChangeHero(hero.hpUpgrade);
-            upgradeSlots[1].ChangeHero(hero.physicalDamageUpgrade);
-            upgradeSlots[2].ChangeHero(hero.magicalDamageUpgrade);
-            upgradeSlots[3].ChangeHero(hero.physicalArmorUpgrade);
-            upgradeSlots[4].ChangeHero(hero.magicalArmorUpgrade);
-
-            // 업그레이드 델리게이트 연결
-            upgradeSlots[0].upgradeDelegate = () => { Upgrade(ref hero.hpUpgrade); upgradeSlots[0].ChangeHero(hero.hpUpgrade); };
-            upgradeSlots[1].upgradeDelegate = () => { Upgrade(ref hero.physicalDamageUpgrade); upgradeSlots[1].ChangeHero(hero.physicalDamageUpgrade); };
-            upgradeSlots[2].upgradeDelegate = () => { Upgrade(ref hero.magicalDamageUpgrade); upgradeSlots[2].ChangeHero(hero.magicalDamageUpgrade); };
-            upgradeSlots[3].upgradeDelegate = () => { Upgrade(ref hero.physicalArmorUpgrade); upgradeSlots[3].ChangeHero(hero.physicalArmorUpgrade); };
-            upgradeSlots[4].upgradeDelegate = () => { Upgrade(ref hero.magicalArmorUpgrade); upgradeSlots[4].ChangeHero(hero.magicalArmorUpgrade); };
+            UpdateSelectedHero();
         }
     }
 
-    public void UpdateSelectedHero(Hero hero)
+    public void ChangeHeroInventory(int heroSlotNumber)
     {
-        if (hero != null)
+        if (heroSlotNumber != -1)
         {
-            currentHero.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Heroes/" + DataManager.Instance.Hero.Get(hero.ID).name);
-            heroName.text = DataManager.Instance.Hero.Get(hero.ID).name;
-        }
-        else
-        {
+            currentHeroSlotNumber = -1;
+            currentHeroSlotNumberInventory = heroSlotNumber;
 
+            currentHero = GameManager.Instance.heroInventory.heroDatas[currentHeroSlotNumberInventory];
+
+            // 선택한 영웅 디스플레이 변경
+            UpdateSelectedHero();
+        }
+    }
+
+    public void UpdateSelectedHero()
+    {
+        if (currentHero != null)
+        {
+            currentHeroSprite.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Heroes/" + DataManager.Instance.Hero.Get(currentHero.ID).name);
+            heroName.text = DataManager.Instance.Hero.Get(currentHero.ID).name;
+
+            heroLevel.text = currentHero.level.ToString();
+            heroTranscendence.text = currentHero.transcendence.ToString();
+            heroGrade.text = currentHero.grade.ToString();
         }
     }
 
@@ -95,9 +75,31 @@ public class HeroUpgrade : UIBase
         }
     }
 
+    public void LevelUp(int value)
+    {
+        if (currentHero != null)
+        {
+            currentHero.level += value;
+            heroLevel.text = currentHero.level.ToString();
+            DatabaseManager.Instance.SaveData(GameManager.Instance.heroInventory, "HeroData");
+        }
+    }
+
+    public void OpenHeroTranscendence()
+    {
+        UIManager.Instance.Show<HeroTranscendence>("FloatingUI");
+        if (currentHeroSlotNumber != -1)
+        {
+            UIManager.Instance.Get<HeroTranscendence>().Initialize(currentHeroSlotNumber);
+        }
+        else if (currentHeroSlotNumberInventory != -1)
+        {
+            UIManager.Instance.Get<HeroTranscendence>().InitializeInventory(currentHeroSlotNumberInventory);
+        }
+    }
+
     private void Start()
     {
-        if (upgradeSlots == null)
-            Initialize();
+        base.Initialize();
     }
 }

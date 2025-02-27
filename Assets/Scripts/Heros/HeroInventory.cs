@@ -161,13 +161,37 @@ public class HeroInventory : UIBase
         if (currentSelectedHero != -1)
         {
             UIManager.Instance.Show<HeroUpgrade>("FloatingUI");
-            UIManager.Instance.Get<HeroUpgrade>().ChangeHero(GameManager.Instance.heroInventory.hero[currentSelectedHero]);
+            UIManager.Instance.Get<HeroUpgrade>().ChangeHero(currentSelectedHero);
         }
         else if (currentSelectedHeroInventory != -1)
         {
             UIManager.Instance.Show<HeroUpgrade>("FloatingUI");
-            UIManager.Instance.Get<HeroUpgrade>().ChangeHero(GameManager.Instance.heroInventory.heroDatas[currentSelectedHeroInventory]);
+            UIManager.Instance.Get<HeroUpgrade>().ChangeHeroInventory(currentSelectedHeroInventory);
         }
+    }
+
+    public void OpenHeroLevelUp()
+    {
+
+    }
+
+    public void OpenHeroTranscend()
+    {
+        if (currentSelectedHero != -1)
+        {
+            UIManager.Instance.Show<HeroTranscendence>("FloatingUI");
+            UIManager.Instance.Get<HeroTranscendence>().Initialize(currentSelectedHero);
+        }
+        else if (currentSelectedHeroInventory != -1)
+        {
+            UIManager.Instance.Show<HeroTranscendence>("FloatingUI");
+            UIManager.Instance.Get<HeroTranscendence>().InitializeInventory(currentSelectedHeroInventory);
+        }
+    }
+
+    public void OpenHeroAwakening()
+    {
+
     }
 
     private void Start()

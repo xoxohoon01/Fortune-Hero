@@ -111,15 +111,15 @@ public class HeroItemInventory : UIBase
         Hero currentHero = hero;
         currentHeroSlot.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Heroes/" + DataManager.Instance.Hero.Get(hero.ID).name);
 
-        heroName.text = DataManager.Instance.Hero.Get(hero.ID).name;
-        WeaponSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Weapon != null ? DataManager.Instance.Item.Get(hero.Weapon.id).name : "";
-        GloveSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Glove != null ? DataManager.Instance.Item.Get(hero.Glove.id).name : "";
-        RingSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Ring != null ? DataManager.Instance.Item.Get(hero.Ring.id).name : "";
-        NecklessSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Neckless != null ? DataManager.Instance.Item.Get(hero.Neckless.id).name : "";
-        HelmetSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Helmet != null ? DataManager.Instance.Item.Get(hero.Helmet.id).name : "";
-        TopSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Top != null ? DataManager.Instance.Item.Get(hero.Top.id).name : "";
-        BottomSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Bottom != null ? DataManager.Instance.Item.Get(hero.Bottom.id).name : "";
-        ShoesSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = hero.Shoes != null ? DataManager.Instance.Item.Get(hero.Shoes.id).name : "";
+        heroName.text = DataManager.Instance.Hero.Get(currentHero.ID).name;
+        WeaponSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Weapon != null ? DataManager.Instance.Item.Get(currentHero.Weapon.id).name : "";
+        GloveSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Glove != null ? DataManager.Instance.Item.Get(currentHero.Glove.id).name : "";
+        RingSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Ring != null ? DataManager.Instance.Item.Get(currentHero.Ring.id).name : "";
+        NecklessSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Neckless != null ? DataManager.Instance.Item.Get(currentHero.Neckless.id).name : "";
+        HelmetSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Helmet != null ? DataManager.Instance.Item.Get(currentHero.Helmet.id).name : "";
+        TopSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Top != null ? DataManager.Instance.Item.Get(currentHero.Top.id).name : "";
+        BottomSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Bottom != null ? DataManager.Instance.Item.Get(currentHero.Bottom.id).name : "";
+        ShoesSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Shoes != null ? DataManager.Instance.Item.Get(currentHero.Shoes.id).name : "";
     }
 
     public void ChangeHeroInventory(int number)

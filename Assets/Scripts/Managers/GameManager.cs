@@ -143,6 +143,11 @@ public class GameManager : MonoSingleton<GameManager>
         UIManager.Instance.Get<HeroInventory>()?.UpdateHeroInventory();
     }
 
+    public void RemoveHero(int slotNumber)
+    {
+        heroInventory.heroDatas.Remove(heroInventory.heroDatas[slotNumber]);
+    }
+
     private void Start()
     {
         Initialize();

@@ -7,6 +7,7 @@ public class Hero
 {
     public int ID; // HeroData ID
     public int level; // 현재 레벨
+    public int transcendence; // 현재 초월
     public int grade; // 현재 등급
 
     public Item Weapon;

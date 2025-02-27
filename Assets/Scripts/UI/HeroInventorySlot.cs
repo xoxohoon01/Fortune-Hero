@@ -21,10 +21,18 @@ public class HeroInventorySlot : UIBase, IPointerClickHandler
     {
         if (currentHero != null && currentHero.ID != 0)
         {
-            UIManager.Instance.Get<HeroInventory>().FinishChangeSlotMode();
-            UIManager.Instance.Get<HeroInventory>().ChangeHero(currentHero);
-            UIManager.Instance.Get<HeroInventory>().currentSelectedHeroInventory = heroSlotNumber;
-            UIManager.Instance.Get<HeroInventory>().currentSelectedHero = -1;
+            if (UIManager.Instance.Get<HeroInventory>() != null)
+            {
+                UIManager.Instance.Get<HeroInventory>().FinishChangeSlotMode();
+                UIManager.Instance.Get<HeroInventory>().ChangeHero(currentHero);
+                UIManager.Instance.Get<HeroInventory>().currentSelectedHeroInventory = heroSlotNumber;
+                UIManager.Instance.Get<HeroInventory>().currentSelectedHero = -1;
+            }
+            
+            if (UIManager.Instance.Get<HeroTranscendence>() != null)
+            {
+                UIManager.Instance.Get<HeroTranscendence>()?.SelectHero(heroSlotNumber);
+            }
         }
     }
 }

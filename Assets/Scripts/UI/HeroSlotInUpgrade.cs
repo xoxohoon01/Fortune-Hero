@@ -6,10 +6,10 @@ using UnityEngine.EventSystems;
 
 public class HeroSlotInUpgrade : MonoBehaviour, IPointerClickHandler
 {
-    public Hero currentSlot;
+    public int currentSlotNumber;
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        UIManager.Instance.Get<HeroUpgrade>().ChangeHero(currentSlot);
+        UIManager.Instance.Get<HeroUpgrade>().ChangeHero(currentSlotNumber);
     }
 }
