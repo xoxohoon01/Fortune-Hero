@@ -60,6 +60,7 @@ namespace DataTable_FortuneHero
 		public System.Int32 monsterID;
 		public System.Int32 spawnCount;
 		public System.Single spawnRadius;
+		public System.Collections.Generic.List<Int32> rewardItems;
   
 
 #region fuctions

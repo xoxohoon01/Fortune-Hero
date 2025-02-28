@@ -115,7 +115,23 @@ public class GameManager : MonoSingleton<GameManager>
     
     public void GetItem(Item item)
     {
-        itemInventory.itemDatas.Add(item);
+        GetItem(item.id, item.amount);
+    }
+
+    public void GetItems(List<Item> items)
+    {
+        foreach (var item in items)
+        {
+            GetItem(item.id, 1);
+        }
+    }
+
+    public void GetItems(List<int> items)
+    {
+        foreach (var item in items)
+        {
+            GetItem(item, 1);
+        }
     }
 
     public void SwapItem(ref Item itemSlot, int heroNumber, int itemNumber)

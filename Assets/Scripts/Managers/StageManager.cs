@@ -119,10 +119,9 @@ public class StageManager : MonoSingleton<StageManager>
         monsterObjects.Clear();
     }
 
-
     public void StartStage()
     {
-        if (DataManager.Instance.Stage.Get(3000+currentStage) == null)
+        if (DataManager.Instance.Stage.Get(3000 + currentStage) == null)
         {
             currentStage--;
         }
@@ -152,7 +151,7 @@ public class StageManager : MonoSingleton<StageManager>
                 {
                     if (heroObjects[i] != null)
                     {
-                        Debug.Log("Å¬¸®¾î!");
+                        GameManager.Instance.GetItems(DataManager.Instance.Stage.Get(3000 + currentStage).rewardItems);
                         isStart = false;
                         DespawnMonster();
                         currentStage++;
