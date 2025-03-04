@@ -11,6 +11,7 @@ public class DataManager : Singleton<DataManager>
     public MonsterDataManager Monster;
     public StageDataManager Stage;
     public SkillDataManager Skill;
+    public ShopDataManager Shop;
 
     public BasicHeroGachaDataManager BasicHeroGacha;
 
@@ -22,6 +23,7 @@ public class DataManager : Singleton<DataManager>
         Monster = new MonsterDataManager();
         Stage = new StageDataManager();
         Skill = new SkillDataManager();
+        Shop = new ShopDataManager();
 
         BasicHeroGacha = new BasicHeroGachaDataManager();
     }

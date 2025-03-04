@@ -13,7 +13,11 @@ public class HUDButtons : UIBase
     {
         UIManager.Instance.Show<HeroInventory>("FloatingUI");
     }
-
+    public void OpenShopMenu()
+    {
+        UIManager.Instance.Show<Shop>("FloatingUI");
+        UIManager.Instance.Get<Shop>().Initialize();
+    }
     public void OpenGachaShopMenu()
     {
         UIManager.Instance.Show<GachaShop>("FloatingUI");

@@ -5,4 +5,5 @@ using UnityEngine;
 public class ItemInventoryData
 {
     public List<Item> itemDatas;
+    public int gold;
 }
