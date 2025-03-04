@@ -196,6 +196,8 @@ MonoBehaviour:
   gachaCatalog: {fileID: 6903133203521463161}
   gachaPage: {fileID: 6828184772735113516}
   currentGold: {fileID: 8226201313735708099}
+  onceGold: {fileID: 4768199381821697137}
+  tenGold: {fileID: 5970852742883131532}
 --- !u!1 &2304046594750810411
 GameObject:
   m_ObjectHideFlags: 0
@@ -1287,7 +1289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
+  m_HorizontalFit: 2
   m_VerticalFit: 0
 --- !u!114 &4519622718422583021
 MonoBehaviour:

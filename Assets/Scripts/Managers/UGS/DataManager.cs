@@ -12,8 +12,10 @@ public class DataManager : Singleton<DataManager>
     public StageDataManager Stage;
     public SkillDataManager Skill;
     public ShopDataManager Shop;
+    public GachaShopDataManager GachaShop;
 
     public BasicHeroGachaDataManager BasicHeroGacha;
+    public BasicItemGachaDataManager BasicItemGacha;
 
     public void Initialize()
     {
@@ -24,7 +26,9 @@ public class DataManager : Singleton<DataManager>
         Stage = new StageDataManager();
         Skill = new SkillDataManager();
         Shop = new ShopDataManager();
+        GachaShop = new GachaShopDataManager();
 
         BasicHeroGacha = new BasicHeroGachaDataManager();
+        BasicItemGacha = new BasicItemGachaDataManager();
     }
 }
