@@ -78,8 +78,11 @@ public class MonsterController : UnitController
 
         if (isAttack)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(target.position - transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 2);
+            if (target != null)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(target.position - transform.position);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 2);
+            }
 
             if (attackDelay <= 0)
             {

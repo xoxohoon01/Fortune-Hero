@@ -6,12 +6,13 @@ using Newtonsoft.Json;
 using DataTable_FortuneHero;
 using System.Linq;
 using Unity.VisualScripting.FullSerializer;
-using static UnityEditor.Progress;
 
 public class GameManager : MonoSingleton<GameManager>
 {
     public HeroInventoryData heroInventory;
     public ItemInventoryData itemInventory;
+    public PlayerStageData playerStage;
+
     public void Initialize()
     {
         Application.targetFrameRate = 60;
@@ -50,7 +51,22 @@ public class GameManager : MonoSingleton<GameManager>
             itemInventory.itemDatas = new List<Item>();
         }
 
+        // 스테이지 불러오기
+        PlayerStageData stageData = DatabaseManager.Instance.LoadData<PlayerStageData>("StageData");
+        if (stageData != null)
+        {
+            playerStage = stageData;
+            StageManager.Instance.ChangeStage(playerStage.currentStage);
+        }
+        // 저장 데이터가 없는 경우
+        else
+        {
+            playerStage = new PlayerStageData();
+        }
+
         DatabaseManager.Instance.SaveData(heroInventory, "HeroData");
+        DatabaseManager.Instance.SaveData(itemInventory, "ItemData");
+        DatabaseManager.Instance.SaveData(playerStage, "StageData");
     }
 
     public void GetItem(int id, int amount = 1)

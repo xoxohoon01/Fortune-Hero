@@ -50,8 +50,10 @@ public class Shop : UIBase
 
     public void PlusBuyCount()
     {
-        int maxAmount = GameManager.Instance.itemInventory.gold / DataManager.Instance.Shop.Get(selectedShopID).value;
-        maxAmount = Mathf.Min(maxAmount, DataManager.Instance.Shop.Get(selectedShopID).maxAmount);
+        ShopData shopData = DataManager.Instance.Shop.Get(selectedShopID);
+        int maxAmount = GameManager.Instance.itemInventory.gold / shopData.value;
+        if (shopData.maxAmount != 0)
+            maxAmount = Mathf.Min(maxAmount, shopData.maxAmount);
         selectedItemAmount = Mathf.Min(selectedItemAmount + 1, maxAmount);
 
         UpdateShop();
@@ -59,14 +61,17 @@ public class Shop : UIBase
 
     public void Buy()
     {
+        ShopData shopData = DataManager.Instance.Shop.Get(selectedShopID);
         if (selectedShopID != -1)
         {
-            if (GameManager.Instance.itemInventory.gold >= DataManager.Instance.Shop.Get(selectedShopID).value * selectedItemAmount)
+            if (GameManager.Instance.itemInventory.gold >= shopData.value * selectedItemAmount)
             {
-                GameManager.Instance.itemInventory.gold -= DataManager.Instance.Shop.Get(selectedShopID).value * selectedItemAmount;
-                GameManager.Instance.GetItem(DataManager.Instance.Shop.Get(selectedShopID).itemID, selectedItemAmount);
+                GameManager.Instance.itemInventory.gold -= shopData.value * selectedItemAmount;
+                GameManager.Instance.GetItem(shopData.itemID, selectedItemAmount);
             }
 
+            selectedShopID = -1;
+            selectedItemAmount = 0;
             UpdateShop();
         }
     }
@@ -88,8 +93,12 @@ public class Shop : UIBase
             itemValue.text = currentShop.value.ToString();
             finalItemValue.text = (currentShop.value * selectedItemAmount).ToString();
             buyCountText.text = selectedItemAmount.ToString();
+
+            int maxAmount = GameManager.Instance.itemInventory.gold / DataManager.Instance.Shop.Get(selectedShopID).value;
+            if (currentShop.maxAmount != 0)
+                maxAmount = Mathf.Min(maxAmount, currentShop.maxAmount);
             amountText.text = selectedItemAmount.ToString();
-            maxAmountText.text = currentShop.maxAmount.ToString();
+            maxAmountText.text = maxAmount.ToString();
         }
         else
         {

@@ -34,15 +34,20 @@ public class CameraManager : MonoSingleton<CameraManager>
     Vector3 GetCenterPoint()
     {
         int count = 0;
+        int firstSlot = -1;
         for (int i = 0; i < 4; i++)
         {
             if (targets[i] != null)
+            {
+                if (firstSlot == -1)
+                    firstSlot = i;
                 count++;
+            }
         }
 
         if (count >= 1)
         {
-            Bounds bounds = new Bounds(targets[0].position, Vector3.zero);
+            Bounds bounds = new Bounds(targets[firstSlot].position, Vector3.zero);
             for (int i = 0; i < 4; i++)
             {
                 if (targets[i] != null)

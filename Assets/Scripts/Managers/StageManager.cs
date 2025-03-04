@@ -121,10 +121,6 @@ public class StageManager : MonoSingleton<StageManager>
 
     public void StartStage()
     {
-        if (DataManager.Instance.Stage.Get(3000 + currentStage) == null)
-        {
-            currentStage--;
-        }
         DespawnAll();
 
         SpawnHero();
@@ -141,6 +137,33 @@ public class StageManager : MonoSingleton<StageManager>
         CancelInvoke("StartStage");
     }
 
+    public void FailStage()
+    {
+        if (isStart)
+        {
+            int count = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                if (heroObjects[i] != null)
+                {
+                    count++;
+                    break;
+                }
+            }
+
+            if (count <= 0)
+            {
+                // 이전 스테이지가 있다면 이전 스테이지로
+                if (DataManager.Instance.Stage.Get(3000 + currentStage - 1) != null)
+                    ChangeStage(currentStage - 1);
+                else
+                    ChangeStage(currentStage);
+                isStart = false;
+                return;
+            }
+        }
+    }
+
     public void ClearStage()
     {
         if (isStart)
@@ -151,11 +174,23 @@ public class StageManager : MonoSingleton<StageManager>
                 {
                     if (heroObjects[i] != null)
                     {
-                        GameManager.Instance.GetItems(DataManager.Instance.Stage.Get(3000 + currentStage).rewardItems);
+                        StageData stageData = DataManager.Instance.Stage.Get(3000 + currentStage);
+                        GameManager.Instance.GetItems(stageData.rewardItems);
+                        GameManager.Instance.itemInventory.gold += stageData.rewardGold;
                         isStart = false;
                         DespawnMonster();
-                        currentStage++;
-                        Invoke("StartStage", 3);
+                        
+                        // 다음 스테이지가 있다면 다음 스테이지로
+                        if (DataManager.Instance.Stage.Get(3000 + currentStage + 1) != null)
+                        {
+                            ChangeStage(currentStage + 1);
+                        }
+                        else
+                        {
+                            ChangeStage(currentStage);
+                        }
+
+                        DatabaseManager.Instance.SaveData(GameManager.Instance.playerStage, "StageData");
                         return;
                     }
                 }
@@ -163,8 +198,18 @@ public class StageManager : MonoSingleton<StageManager>
         }
     }
 
+    public void ChangeStage(int stage)
+    {
+        currentStage = stage;
+        GameManager.Instance.playerStage.currentStage = currentStage;
+        DatabaseManager.Instance.SaveData(GameManager.Instance.playerStage, "StageData");
+
+        Invoke("StartStage", 3f);
+    }
+
     private void Update()
     {
+        FailStage();
         ClearStage();
     }
 }
