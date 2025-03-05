@@ -38,7 +38,7 @@ public class GachaReward : UIBase
             background.sizeDelta = new Vector2(1000, 350 + 160 * (itemList.Count / 6));
             for (int i = 0; i < itemList.Count; i++)
             {
-                Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Heroes/{DataManager.Instance.Hero.Get(itemList[i].id)?.name}");
+                Instantiate(Resources.Load<GameObject>("UI/HeroInventorySlot"), scroll.content).transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Items/{DataManager.Instance.Item.Get(itemList[i].id)?.name}");
             }
         }
     }
