@@ -26,20 +26,20 @@ public class HeroItemInventorySlot : MonoBehaviour, IPointerClickHandler
             {
                 if (currentItem.equipedHeroNumber != -1 || currentItem.equipedHeroInventoryNumber != -1)
                 {
-                    sprite.transform.GetChild(0).GetComponent<TMP_Text>().text = itemData.ID.ToString();
+                    sprite.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Items/{DataManager.Instance.Item.Get(itemData.ID).name}");
                     isEquip.text = "E";
                     amount.text = "";
                 }
                 else
                 {
-                    sprite.transform.GetChild(0).GetComponent<TMP_Text>().text = itemData.ID.ToString();
+                    sprite.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Items/{DataManager.Instance.Item.Get(itemData.ID).name}");
                     isEquip.text = "";
                     amount.text = "";
                 }
             }
             else
             {
-                sprite.transform.GetChild(0).GetComponent<TMP_Text>().text = itemData.ID.ToString();
+                sprite.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Items/{DataManager.Instance.Item.Get(itemData.ID).name}");
                 isEquip.text = "";
                 amount.text = currentItem.amount.ToString();
             }
@@ -48,7 +48,7 @@ public class HeroItemInventorySlot : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            sprite.transform.GetChild(0).GetComponent<TMP_Text>().text = "";
+            sprite.transform.GetChild(0).GetComponent<Image>().sprite = null;
             isEquip.text = "";
             amount.text = "";
         }

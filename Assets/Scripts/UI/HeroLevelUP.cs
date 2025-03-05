@@ -33,7 +33,8 @@ public class HeroLevelUP : UIBase
         inventoryItemList = new List<Item>();
         foreach (var item in GameManager.Instance.itemInventory.itemDatas)
         {
-            inventoryItemList.Add(new Item(item.id, item.amount));
+            if (item.id == 1001 || item.id == 1002 || item.id == 1003)
+                inventoryItemList.Add(new Item(item.id, item.amount));
         }
 
         selectedItem = new List<Item>();
@@ -50,7 +51,8 @@ public class HeroLevelUP : UIBase
         inventoryItemList = new List<Item>();
         foreach (var item in GameManager.Instance.itemInventory.itemDatas)
         {
-            inventoryItemList.Add(new Item(item.id, item.amount));
+            if (item.id == 1001 || item.id == 1002 || item.id == 1003)
+                inventoryItemList.Add(new Item(item.id, item.amount));
         }
 
         currentHeroSlotNumber = -1;
@@ -120,11 +122,7 @@ public class HeroLevelUP : UIBase
             }
             for (int i = 0; i < inventoryItemList.Count; i++)
             {
-                int id = GameManager.Instance.itemInventory.itemDatas[i].id;
-                if (id == 1001 || id == 1002 || id == 1003)
-                {
-                    Instantiate(Resources.Load<LevelUPItemInventorySlot>("UI/LevelUPItemInventorySlot"), inventoryScroll.content).Initialize(inventoryItemList[i], false);
-                }
+                Instantiate(Resources.Load<LevelUPItemInventorySlot>("UI/LevelUPItemInventorySlot"), inventoryScroll.content).Initialize(inventoryItemList[i], false);
             }
         }
         

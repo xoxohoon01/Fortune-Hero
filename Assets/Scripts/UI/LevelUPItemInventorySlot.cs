@@ -24,7 +24,7 @@ public class LevelUPItemInventorySlot : MonoBehaviour, IPointerClickHandler
 
         if (itemData != null)
         {
-            sprite.transform.GetChild(0).GetComponent<TMP_Text>().text = itemData.ID.ToString();
+            sprite.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Items/{DataManager.Instance.Item.Get(itemData.ID).name}");
             isEquip.text = "";
             amount.text = currentItem.amount.ToString();
         }

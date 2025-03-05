@@ -91,7 +91,7 @@ public class GameManager : MonoSingleton<GameManager>
             // 인벤토리에 같은 아이템이 있는 경우
             for (int i = 0; i < itemInventory.itemDatas.Count; i++)
             {
-                if (itemData.ID == id)
+                if (itemInventory.itemDatas[i].id == id)
                 {
                     if (itemInventory.itemDatas[i].amount < 99)
                     {
@@ -116,7 +116,7 @@ public class GameManager : MonoSingleton<GameManager>
         // 인벤토리에 같은 아이템이 없는 경우
         if (!isAdded) 
         {
-            itemInventory.itemDatas.Add(new Item(id));
+            itemInventory.itemDatas.Add(new Item(id, amount));
         }
 
         #endregion

@@ -153,6 +153,7 @@ public class StageManager : MonoSingleton<StageManager>
 
             if (count <= 0)
             {
+                Debug.Log("실패함");
                 // 이전 스테이지가 있다면 이전 스테이지로
                 if (DataManager.Instance.Stage.Get(3000 + currentStage - 1) != null)
                     ChangeStage(currentStage - 1);
@@ -174,6 +175,7 @@ public class StageManager : MonoSingleton<StageManager>
                 {
                     if (heroObjects[i] != null)
                     {
+                        Debug.Log("클리어함");
                         StageData stageData = DataManager.Instance.Stage.Get(3000 + currentStage);
                         GameManager.Instance.GetItems(stageData.rewardItems);
                         GameManager.Instance.itemInventory.gold += stageData.rewardGold;
