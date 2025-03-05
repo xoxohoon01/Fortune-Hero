@@ -147,12 +147,12 @@ public class HeroInventory : UIBase
         if (currentSelectedHero != -1)
         {
             UIManager.Instance.Show<HeroItemInventory>("FloatingUI");
-            UIManager.Instance.Get<HeroItemInventory>().ChangeHero(GameManager.Instance.heroInventory.hero[currentSelectedHero]);
+            UIManager.Instance.Get<HeroItemInventory>().ChangeHero(currentSelectedHero);
         }
         else if (currentSelectedHeroInventory != -1)
         {
             UIManager.Instance.Show<HeroItemInventory>("FloatingUI");
-            UIManager.Instance.Get<HeroItemInventory>().ChangeHero(GameManager.Instance.heroInventory.heroDatas[currentSelectedHeroInventory]);
+            UIManager.Instance.Get<HeroItemInventory>().ChangeHeroInventory(currentSelectedHeroInventory);
         }
     }
 

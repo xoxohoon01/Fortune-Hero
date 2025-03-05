@@ -150,14 +150,150 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
-    public void SwapItem(ref Item itemSlot, int heroNumber, int itemNumber)
+    public void HeroSwapItem(ref Item itemSlot, int heroNumber, int itemNumber)
     {
+        switch (DataManager.Instance.Item.Get(itemInventory.itemDatas[itemNumber].id).equipSlot)
+        {
+            case 1:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Weapon = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Weapon = null;
+                break;
+            case 2:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Glove = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Glove = null;
+                break;
+            case 3:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Ring = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Ring = null;
+                break;
+            case 4:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Neckless = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Neckless = null;
+                break;
+            case 5:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Helmet = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Helmet = null;
+                break;
+            case 6:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Top = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Top = null;
+                break;
+            case 7:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Bottom = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Bottom = null;
+                break;
+            case 8:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Shoes = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Shoes = null;
+                break;
+            case 9:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Artifact = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Artifact = null;
+                break;
+        }
         if (itemSlot != null)
         {
             itemSlot.equipedHeroNumber = -1;
+            itemSlot.equipedHeroInventoryNumber = -1;
         }
         itemSlot = Instance.itemInventory.itemDatas[itemNumber];
-        Instance.itemInventory.itemDatas[itemNumber].equipedHeroNumber = heroNumber;
+        itemInventory.itemDatas[itemNumber].equipedHeroNumber = heroNumber;
+        itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber = -1;
+
+        // 인벤토리 저장
+        DatabaseManager.Instance.SaveData(heroInventory, "HeroData");
+        DatabaseManager.Instance.SaveData(itemInventory, "ItemData");
+
+        // UI 업데이트
+        UIManager.Instance.Get<ItemInventory>()?.UpdateSlot();
+        UIManager.Instance.Get<HeroItemInventory>()?.UpdateSlot();
+    }
+
+    public void HeroInventorySwapItem(ref Item itemSlot, int heroInventoryNumber, int itemNumber)
+    {
+        switch (DataManager.Instance.Item.Get(itemInventory.itemDatas[itemNumber].id).equipSlot)
+        {
+            case 1:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Weapon = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Weapon = null;
+                break;
+            case 2:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Glove = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Glove = null;
+                break;
+            case 3:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Ring = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Ring = null;
+                break;
+            case 4:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Neckless = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Neckless = null;
+                break;
+            case 5:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Helmet = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Helmet = null;
+                break;
+            case 6:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Top = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Top = null;
+                break;
+            case 7:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Bottom = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Bottom = null;
+                break;
+            case 8:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Shoes = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Shoes = null;
+                break;
+            case 9:
+                if (itemInventory.itemDatas[itemNumber].equipedHeroNumber != -1)
+                    heroInventory.hero[itemInventory.itemDatas[itemNumber].equipedHeroNumber].Artifact = null;
+                if (itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber != -1)
+                    heroInventory.heroDatas[itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber].Artifact = null;
+                break;
+        }
+        if (itemSlot != null)
+        {
+            itemSlot.equipedHeroNumber = -1;
+            itemSlot.equipedHeroInventoryNumber = -1;
+        }
+        itemSlot = Instance.itemInventory.itemDatas[itemNumber];
+        Instance.itemInventory.itemDatas[itemNumber].equipedHeroNumber = -1;
+        Instance.itemInventory.itemDatas[itemNumber].equipedHeroInventoryNumber = heroInventoryNumber;
 
         // 인벤토리 저장
         DatabaseManager.Instance.SaveData(heroInventory, "HeroData");

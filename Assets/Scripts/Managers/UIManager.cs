@@ -59,12 +59,14 @@ public class UIManager : MonoSingleton<UIManager>
         if (uiObjectDictionary.ContainsKey(typeof(T).ToString()))
         {
             uiObjectDictionary[typeof(T).ToString()].SetActive(true);
+            uiObjectDictionary[typeof(T).ToString()].transform.SetAsLastSibling();
         }
         else
         {
             GameObject newUIObject = Instantiate(newUI.gameObject, canvas[name].transform);
             newUIObject.name = typeof(T).ToString();
             uiObjectDictionary.TryAdd(typeof(T).ToString(), newUIObject);
+            newUIObject.transform.SetAsLastSibling();
         }
     }
     public void Hide<T>() where T : UIBase

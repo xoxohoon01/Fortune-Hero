@@ -10,6 +10,7 @@ public class Item
     public int amount;
     public int upgrade;
     public int equipedHeroNumber = -1;
+    public int equipedHeroInventoryNumber = -1;
 
     public Item(int itemID = 0, int newItemAmount = 1)
     {

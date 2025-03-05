@@ -22,6 +22,5 @@ public class HUDButtons : UIBase
     {
         UIManager.Instance.Show<GachaShop>("FloatingUI");
         UIManager.Instance.Get<GachaShop>().Initialize();
-        UIManager.Instance.Get<GachaShop>().UpdateGachaShop();
     }
 }

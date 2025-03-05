@@ -23,7 +23,8 @@ public class HeroItemInventory : UIBase
 
     public ScrollRect scroll;
 
-    private int currentHeroNumber;
+    public int currentHeroNumber = -1;
+    public int currentHeroInventoryNumber = -1;
 
     private int page;
     private bool isInitialized;
@@ -43,14 +44,14 @@ public class HeroItemInventory : UIBase
         {
             Item item = GameManager.Instance.itemInventory.itemDatas[i];
 
-            scroll.content.GetChild(i).GetComponent<ItemInventorySlot>().Initialize(item, i);
+            scroll.content.GetChild(i).GetComponent<HeroItemInventorySlot>().Initialize(item, i);
             count++;
         }
         if (GameManager.Instance.itemInventory.itemDatas.Count < 300)
         {
             for (int i = count; i < 300; i++)
             {
-                scroll.content.GetChild(i).GetComponent<ItemInventorySlot>().Initialize(new Item(), i);
+                scroll.content.GetChild(i).GetComponent<HeroItemInventorySlot>().Initialize(new Item(), i);
             }
         }
     }
@@ -67,11 +68,11 @@ public class HeroItemInventory : UIBase
 
             if (item.id != 0 && DataManager.Instance.Item.Get(item.id).type == type)
             {
-                scroll.content.GetChild(i).GetComponent<ItemInventorySlot>().Initialize(item, i);
+                scroll.content.GetChild(i).GetComponent<HeroItemInventorySlot>().Initialize(item, i);
             }
             else
             {
-                scroll.content.GetChild(i).GetComponent<ItemInventorySlot>().Initialize(new Item(), i);
+                scroll.content.GetChild(i).GetComponent<HeroItemInventorySlot>().Initialize(new Item(), i);
             }
 
             count++;
@@ -80,13 +81,18 @@ public class HeroItemInventory : UIBase
         {
             for (int i = count; i < 300; i++)
             {
-                scroll.content.GetChild(i).GetComponent<ItemInventorySlot>().Initialize(new Item(), i);
+                scroll.content.GetChild(i).GetComponent<HeroItemInventorySlot>().Initialize(new Item(), i);
             }
         }
     }
 
     public void UpdateSlot()
     {
+        if (currentHeroNumber != -1)
+            ChangeHero(currentHeroNumber);
+        else if (currentHeroInventoryNumber != -1)
+            ChangeHeroInventory(currentHeroInventoryNumber);
+
         if (page == 0)
             ChangeAll();
         else
@@ -99,17 +105,19 @@ public class HeroItemInventory : UIBase
 
         for (int i = 0; i < 300; i++)
         {
-            Instantiate(Resources.Load<ItemInventorySlot>("UI/ItemInventorySlot"), scroll.content).Initialize(new Item(), i);
+            Instantiate(Resources.Load<HeroItemInventorySlot>("UI/HeroItemInventorySlot"), scroll.content).Initialize(new Item(), i);
         }
 
         ChangeAll();
         isInitialized = true;
     }
 
-    public void ChangeHero(Hero hero)
+    public void ChangeHero(int number)
     {
-        Hero currentHero = hero;
-        currentHeroSlot.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Heroes/" + DataManager.Instance.Hero.Get(hero.ID).name);
+        currentHeroNumber = number;
+        currentHeroInventoryNumber = -1;
+        Hero currentHero = GameManager.Instance.heroInventory.hero[number];
+        currentHeroSlot.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Heroes/" + DataManager.Instance.Hero.Get(currentHero.ID).name);
 
         heroName.text = DataManager.Instance.Hero.Get(currentHero.ID).name;
         WeaponSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Weapon != null ? DataManager.Instance.Item.Get(currentHero.Weapon.id).name : "";
@@ -123,8 +131,21 @@ public class HeroItemInventory : UIBase
     }
 
     public void ChangeHeroInventory(int number)
-    { 
+    {
+        currentHeroNumber = -1;
+        currentHeroInventoryNumber = number;
+        Hero currentHero = GameManager.Instance.heroInventory.heroDatas[number];
+        currentHeroSlot.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Heroes/" + DataManager.Instance.Hero.Get(currentHero.ID).name);
 
+        heroName.text = DataManager.Instance.Hero.Get(currentHero.ID).name;
+        WeaponSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Weapon != null ? DataManager.Instance.Item.Get(currentHero.Weapon.id).name : "";
+        GloveSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Glove != null ? DataManager.Instance.Item.Get(currentHero.Glove.id).name : "";
+        RingSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Ring != null ? DataManager.Instance.Item.Get(currentHero.Ring.id).name : "";
+        NecklessSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Neckless != null ? DataManager.Instance.Item.Get(currentHero.Neckless.id).name : "";
+        HelmetSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Helmet != null ? DataManager.Instance.Item.Get(currentHero.Helmet.id).name : "";
+        TopSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Top != null ? DataManager.Instance.Item.Get(currentHero.Top.id).name : "";
+        BottomSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Bottom != null ? DataManager.Instance.Item.Get(currentHero.Bottom.id).name : "";
+        ShoesSlot.transform.GetChild(0).GetComponent<TMP_Text>().text = currentHero.Shoes != null ? DataManager.Instance.Item.Get(currentHero.Shoes.id).name : "";
     }
 
     private void OnEnable()

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using DataTable_FortuneHero;
 using UnityEngine.UI;
 
-public class ItemInventorySlot : MonoBehaviour, IPointerClickHandler
+public class HeroItemInventorySlot : MonoBehaviour, IPointerClickHandler
 {
     public Image sprite;
     public TMP_Text isEquip;
@@ -64,6 +64,8 @@ public class ItemInventorySlot : MonoBehaviour, IPointerClickHandler
             ItemDescription item = UIManager.Instance.Get<ItemDescription>();
             item.Initialize(currentItem, itemSlotNumber);
 
+            if (UIManager.Instance.Get<HeroItemInventory>().currentHeroNumber != -1) item.SetHero(UIManager.Instance.Get<HeroItemInventory>().currentHeroNumber);
+            else if (UIManager.Instance.Get<HeroItemInventory>().currentHeroInventoryNumber != -1) item.SetHeroInventory(UIManager.Instance.Get<HeroItemInventory>().currentHeroInventoryNumber);
         }
 
         if (UIManager.Instance.Get<HeroLevelUP>() != null)
