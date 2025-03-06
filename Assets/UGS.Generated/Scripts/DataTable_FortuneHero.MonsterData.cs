@@ -72,11 +72,10 @@ namespace DataTable_FortuneHero
 		public System.Single magicalDamage_PerLevel;
 		public System.Single physicalArmor_PerLevel;
 		public System.Single magicalArmor_PerLevel;
-		public System.Single hp_PerGrade;
-		public System.Single mp_PerLevel;
 		public System.Single exp;
 		public System.Single exp_PerLevel;
 		public System.String prefabPath;
+		public System.Collections.Generic.List<Int32> skillList;
   
 
 #region fuctions

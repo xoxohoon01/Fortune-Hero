@@ -9,4 +9,8 @@ public class UnitController : MonoBehaviour
     public virtual void OnAttackEvent()
     {
     }
+
+    public virtual void IsAlive()
+    {
+    }
 }

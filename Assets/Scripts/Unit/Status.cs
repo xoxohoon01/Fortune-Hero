@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DataTable_FortuneHero;
 
+[System.Serializable]
 public class Status
 {
     public float hp;
@@ -24,6 +25,8 @@ public class Status
         attackSpeed = heroData.attackSpeed;
         moveSpeed = heroData.moveSpeed;
         attackRange = heroData.attackRange;
+
+        hp = heroData.hp + (heroData.hp_PerLevel * hero.level) + (heroData.hp_PerGrade * hero.grade);
     }
 
     public Status(Monster monster)
@@ -36,5 +39,7 @@ public class Status
         attackSpeed = monsterData.attackSpeed;
         moveSpeed = monsterData.moveSpeed;
         attackRange = monsterData.attackRange;
+
+        hp = monsterData.hp + (monsterData.hp_PerLevel * monster.level);
     }
 }

@@ -35,6 +35,7 @@ public class UIManager : MonoSingleton<UIManager>
         CreateCanvas("FloatingUI");
 
         Show<HUDButtons>("HUD", false);
+        Show<SpeedController>("HUD", false);
     }
 
     public void Open<T>() where T : UIBase

@@ -72,6 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4985723201748173609}
   - component: {fileID: -2929034790615439569}
+  - component: {fileID: 8220307011818798388}
   m_Layer: 0
   m_Name: Helmet_Slime
   m_TagString: Untagged
@@ -106,7 +107,7 @@ Animator:
   m_GameObject: {fileID: 6099216083854692543}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7895be86a282ef141828ac27e38a26eb, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3fb677bbbf77e884dbebfad834e915d0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -117,6 +118,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8220307011818798388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6099216083854692543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c567aa22bf1aa4ca8c21865899880e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6227478247973427170
 GameObject:
   m_ObjectHideFlags: 0

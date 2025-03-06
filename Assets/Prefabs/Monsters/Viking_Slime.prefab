@@ -227,6 +227,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6312573360258431772}
   - component: {fileID: -2790815117522760751}
+  - component: {fileID: -8173664005875581783}
   m_Layer: 0
   m_Name: Viking_Slime
   m_TagString: Untagged
@@ -272,6 +273,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-8173664005875581783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6688149642241925542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c567aa22bf1aa4ca8c21865899880e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7588663013591350367
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,15 +32,16 @@ public class SkillController : MonoBehaviour
     private void OnHit()
     {
         Collider[] colliders = Physics.OverlapBox(transform.position + (Vector3.up * (currentSkillData.size.y/2)), currentSkillData.size / 2, transform.rotation);
-        
+
+        if (isEnd) return;
         foreach(Collider collider in colliders)
         {
             if (collider.gameObject == targetObject)
             {
                 if (currentSkillData.damageType == 1)
-                    targetObject.GetComponent<MonsterController>().hp -= currentSkillData.damage * sender.status.physicalDamage;
+                    targetObject.GetComponent<UnitController>().status.hp -= currentSkillData.damage * sender.status.physicalDamage;
                 if (currentSkillData.damageType == 2)
-                    targetObject.GetComponent<MonsterController>().hp -= currentSkillData.damage * sender.status.magicalDamage;
+                    targetObject.GetComponent<UnitController>().status.hp -= currentSkillData.damage * sender.status.magicalDamage;
                 isEnd = true;
             }
         }

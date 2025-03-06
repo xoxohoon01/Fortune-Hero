@@ -115,11 +115,22 @@ public class HeroController : UnitController
             if (attackDelay <= 0)
             {
                 animator.SetTrigger("Attack");
-                attackDelay = currentHeroData.attackSpeed;
+                attackDelay = (1 / currentHeroData.attackSpeed);
             }
         }
 
+        if (!StageManager.Instance.isStart)
+            animator.ResetTrigger("Attack");
+
         attackDelay = Mathf.Max(attackDelay - Time.deltaTime, 0);
+    }
+
+    public override void IsAlive()
+    {
+        if (status.hp <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public override void OnAttackEvent()
@@ -130,9 +141,11 @@ public class HeroController : UnitController
             if (skill.type == 1)
             {
                 MonsterController monster = target.GetComponent<MonsterController>();
-                monster.hp -= (currentHeroData.physicalDamage) +
-                    (currentHero.level * currentHeroData.physicalDamage_PerLevel) +
-                    (currentHero.grade * currentHeroData.physicalDamage_PerGrade);
+
+                if (skill.damageType == 1)
+                    monster.status.hp -= Mathf.Max(status.physicalDamage - monster.status.physicalArmor, 0);
+                else if (skill.damageType == 2)
+                    monster.status.hp -= Mathf.Max(status.magicalDamage - monster.status.magicalArmor, 0);
             }
             else if (skill.type == 2)
             {
@@ -170,5 +183,7 @@ public class HeroController : UnitController
         PathFinding();
 
         Animation();
+
+        IsAlive();
     }
 }

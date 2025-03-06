@@ -74,7 +74,6 @@ namespace DataTable_FortuneHero
 		public System.Single physicalArmor_PerLevel;
 		public System.Single magicalArmor_PerLevel;
 		public System.Single hp_PerGrade;
-		public System.Single mp_PerLevel;
 		public System.Single physicalDamage_PerGrade;
 		public System.Single magicalDamage_PerGrade;
 		public System.Single physicalArmor_PerGrade;

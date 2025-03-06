@@ -59,6 +59,7 @@ namespace DataTable_FortuneHero
 		public System.Int32 ID;
 		public System.Int32 monsterID;
 		public System.Int32 spawnCount;
+		public System.Int32 spawnLevel;
 		public System.Single spawnRadius;
 		public System.Collections.Generic.List<Int32> rewardItems;
 		public System.Int32 rewardGold;

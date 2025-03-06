@@ -9,7 +9,7 @@ using Unity.VisualScripting;
 public class StageManager : MonoSingleton<StageManager>
 {
     public int currentStage;
-    private bool isStart;
+    public bool isStart { get; private set; }
 
     public GameObject[] heroObjects { get; private set; }
     public List<GameObject> monsterObjects { get; private set; }
@@ -77,7 +77,7 @@ public class StageManager : MonoSingleton<StageManager>
             monster.transform.position = spawnPos;
             monster.transform.LookAt(Vector3.zero);
 
-            monster.Initialize(DataManager.Instance.Monster.Get(stage.monsterID));
+            monster.Initialize(DataManager.Instance.Monster.Get(stage.monsterID), stage.spawnLevel);
             monsterObjects.Add(monster.gameObject);
         }
     }
