@@ -30,7 +30,7 @@ public class ItemDescription : UIBase
         ItemData itemData = DataManager.Instance.Item.Get(item.id);
         itemName.text = itemData.name;
         itemUpgrade.text = $"+{item.upgrade}";
-        sprite.transform.GetChild(0).GetComponent<TMP_Text>().text = itemData.ID.ToString();
+        sprite.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Items/{DataManager.Instance.Item.Get(itemData.ID).name}");
         itemDescription.text = itemData.description;
 
         isInitialized = true;
@@ -137,14 +137,6 @@ public class ItemDescription : UIBase
         targetHero = null;
         heroNumber = -1;
         heroInventoryNumber = -1;
-    }
-
-    private void OnEnable()
-    {
-        if (isInitialized)
-        {
-
-        }
     }
 
     private void Start()
